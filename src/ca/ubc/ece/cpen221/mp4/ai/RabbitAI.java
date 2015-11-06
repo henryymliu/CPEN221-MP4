@@ -13,6 +13,7 @@ import ca.ubc.ece.cpen221.mp4.commands.EatCommand;
 import ca.ubc.ece.cpen221.mp4.commands.MoveCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
+import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 import ca.ubc.ece.cpen221.mp4.items.animals.Fox;
 import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
@@ -49,43 +50,55 @@ public class RabbitAI extends AbstractAI {
                 if (animal.getLocation().getDistance(items.getLocation()) <= 2) {
                     Direction direction = Util.getDirectionTowards(animal.getLocation(), items.getLocation());
                     if (direction.equals(Direction.NORTH)) {
-                        if (Util.isLocationEmpty((World) world, new Location(animal.getLocation(), Direction.SOUTH))) {
-                            return new MoveCommand(animal, new Location(animal.getLocation(), Direction.SOUTH));
-                        } else {
-                            return new MoveCommand(animal, new Location(
-                                    Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
-                        }
+                        return moveCommandAdjacent(world, animal, direction);
                     }
                     if (direction.equals(Direction.SOUTH)) {
-                        if (Util.isLocationEmpty((World) world, new Location(animal.getLocation(), Direction.NORTH))) {
-                            return new MoveCommand(animal, new Location(animal.getLocation(), Direction.NORTH));
-                        } else {
-                            return new MoveCommand(animal, new Location(
-                                    Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
-                        }
+                        return moveCommandAdjacent(world, animal, direction);
                     }
                     if (direction.equals(Direction.WEST)) {
-                        if (Util.isLocationEmpty((World) world, new Location(animal.getLocation(), Direction.EAST))) {
-                            return new MoveCommand(animal, new Location(animal.getLocation(), Direction.EAST));
-                        } else {
-                            return new MoveCommand(animal, new Location(
-                                    Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
-                        }
+                        return moveCommandAdjacent(world, animal, direction);
                     }
                     if (direction.equals(Direction.EAST)) {
-                        if (Util.isLocationEmpty((World) world, new Location(animal.getLocation(), Direction.WEST))) {
-                            return new MoveCommand(animal, new Location(animal.getLocation(), Direction.WEST));
-                        } else {
-                            return new MoveCommand(animal, new Location(
-                                    Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
-                        }
+                        return moveCommandAdjacent(world, animal, direction);
                     }
                 }
+
+            } else {
+                this.moveCommandRandom(world, animal);
+
             }
         }
         itemCandidate.addAll(itemDistances.values());
         Collections.sort(itemCandidate);
 
         return new WaitCommand();
+    }
+
+    public Command moveCommandAdjacent(ArenaWorld world, ArenaAnimal animal, Direction direction) {
+        if (this.isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
+            return new MoveCommand(animal, new Location(animal.getLocation(), direction));
+        } else {
+            return new MoveCommand(animal,
+                    new Location(Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
+        }
+    }
+
+    public Command moveCommandRandom(ArenaWorld world, ArenaAnimal animal) {
+        if (!this.isStuck(world, animal)) {
+            return new MoveCommand(animal,
+                    new Location(Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
+        } else {
+            return new WaitCommand();
+        }
+    }
+
+    public boolean isStuck(ArenaWorld world, ArenaAnimal animal) {
+        for (Direction dir : Direction.values()) {
+            if (this.isLocationEmpty(world, animal, new Location(animal.getLocation(), dir))) {
+                return false;
+            }
+
+        }
+        return true;
     }
 }
