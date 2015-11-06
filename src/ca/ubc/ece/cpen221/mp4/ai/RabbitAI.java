@@ -25,6 +25,7 @@ public class RabbitAI extends AbstractAI {
     private int closest = 10; // max number; greater than rabbit's view range
     private int temp;
     private boolean foxFound;
+    private static final int MAX_ENERGY = 60;
 
     public RabbitAI() {
     }
@@ -36,17 +37,19 @@ public class RabbitAI extends AbstractAI {
         Set<Item> itemsInRange = world.searchSurroundings(animal);
         List<Integer> itemCandidate = new ArrayList<Integer>();
 
+        if (animal.getEnergy() >= 2 * animal.getMaxEnergy() / 3) {
+            return new BreedCommand(animal, Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation()));
+        }
+
         for (Item items : itemsInRange) {
 
             if (items.getName().equals("grass")) {
                 itemDistances.put(items, animal.getLocation().getDistance(items.getLocation()));
                 if (animal.getLocation().getDistance(items.getLocation()) == 1) {
                     return new EatCommand(animal, items);
-
                 }
-            }
-            if (items.getName().equals("Fox")) {
-                if (animal.getLocation().getDistance(items.getLocation()) <= 2) {
+            } else if (items.getName().equals("Fox")) {
+                if (animal.getLocation().getDistance(items.getLocation()) <= 3) {
                     Direction direction = Util.getDirectionTowards(animal.getLocation(), items.getLocation());
                     if (direction.equals(Direction.NORTH)) {
                         if (Util.isLocationEmpty((World) world, new Location(animal.getLocation(), Direction.SOUTH))) {
@@ -82,6 +85,15 @@ public class RabbitAI extends AbstractAI {
                     }
                 }
             }
+//            } else {
+//                while (true) {
+//                    Direction dir = Util.getRandomDirection();
+//                    if (this.isLocationEmpty(world, animal, new Location(animal.getLocation(), dir))) {
+//                        return new MoveCommand(animal,
+//                                new Location(Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
+//                    }
+//                }
+//            }
         }
         itemCandidate.addAll(itemDistances.values());
         Collections.sort(itemCandidate);
