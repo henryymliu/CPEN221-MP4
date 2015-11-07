@@ -70,7 +70,7 @@ public class RabbitAI extends AbstractAI {
                         }
                     }
 
-                } else if (items.getName().equals("grass")) {
+                } /*else if (items.getName().equals("grass")) {
                     Direction direction = Util.getDirectionTowards(animal.getLocation(), items.getLocation());
                     if (animal.getLocation().getDistance(items.getLocation()) == closestDistance) {
                         if (animal.getLocation().getDistance(items.getLocation()) == 1) {
@@ -91,7 +91,7 @@ public class RabbitAI extends AbstractAI {
                         }
                     }
 
-                } else {
+                }*/ else {
                     this.moveCommandRandom(world, animal);
 
                 }
