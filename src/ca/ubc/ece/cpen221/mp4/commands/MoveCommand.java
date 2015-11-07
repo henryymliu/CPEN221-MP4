@@ -38,10 +38,10 @@ public final class MoveCommand implements Command {
 			return;
 		}
 		if (!Util.isValidLocation(world, targetLocation) || !Util.isLocationEmpty(world, targetLocation)) {
-			throw new InvalidCommandException("Invalid MoveCommand: Invalid/non-empty target location");
+			throw new InvalidCommandException("Invalid MoveCommand: Invalid/non-empty target location " + item.getLocation().toString());
 		}
 		if (item.getMovingRange() < targetLocation.getDistance(item.getLocation())) {
-			throw new InvalidCommandException("Invalid MoveCommand: Target location farther than moving range" + item.getLocation().toString());
+			throw new InvalidCommandException("Invalid MoveCommand: Target location farther than moving range " + item.getLocation().toString());
 		}
 
 		item.moveTo(targetLocation);

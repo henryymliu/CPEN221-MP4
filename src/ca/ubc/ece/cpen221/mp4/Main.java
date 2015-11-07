@@ -5,8 +5,8 @@ import javax.swing.SwingUtilities;
 import ca.ubc.ece.cpen221.mp4.ai.*;
 import ca.ubc.ece.cpen221.mp4.items.Gardener;
 import ca.ubc.ece.cpen221.mp4.items.Grass;
-import ca.ubc.ece.cpen221.mp4.items.HolyHandGrenade;
 import ca.ubc.ece.cpen221.mp4.items.animals.*;
+import ca.ubc.ece.cpen221.mp4.otheritems.HolyHandGrenade;
 import ca.ubc.ece.cpen221.mp4.staff.WorldImpl;
 import ca.ubc.ece.cpen221.mp4.staff.WorldUI;
 
@@ -59,7 +59,7 @@ public class Main {
 		addGnats(world);
 		addRabbits(world);
 		addFoxes(world);
-		addHHG(world);
+		//addHHG(world);
 		// TODO: You may add your own creatures here!
 	}
 

@@ -173,6 +173,36 @@ public final class Util {
 			return null;
 		return neighbors[RAND.nextInt(numLocs)];
 	}
+	
+	/**
+	 * Returns a random empty Location in the specified World that is within a specified
+	 * radius to <code>loc</code>, or null if there is no empty adjacent location.
+	 *
+	 * @param world
+	 *            the current World
+	 * @param loc
+	 *            the center location, all empty locations returned (if any) are
+	 *            adjacent to loc
+	 * @param radius radius from given loc          
+	 * @return empty location within radius of loc, or null if none exists
+	 */
+	public static Location getRandomEmptyRadialLocation(World world, Location loc, int radius) {
+		Location[] neighbors = new Location[(2*radius+1) * (2*radius+1)]; 
+		int numLocs = 0;
+		for (int x = loc.getX() - radius; x <= loc.getX() + radius; x++) {
+			for (int y = loc.getY() - radius; y <= loc.getY() + 1; y++) {
+				Location l = new Location(x, y);
+				if (isValidLocation(world, l) && isLocationEmpty(world, l) && loc.getDistance(l) == 1) {
+					neighbors[numLocs] = l;
+					numLocs++;
+				}
+			}
+		}
+		if (numLocs == 0)
+			return null;
+		return neighbors[RAND.nextInt(numLocs)];
+	}
+	
 
 	/**
 	 * Loads an image, given the name of the file (for example, "fox.gif"). This
