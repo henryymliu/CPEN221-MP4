@@ -41,7 +41,7 @@ public final class MoveCommand implements Command {
 			throw new InvalidCommandException("Invalid MoveCommand: Invalid/non-empty target location");
 		}
 		if (item.getMovingRange() < targetLocation.getDistance(item.getLocation())) {
-			throw new InvalidCommandException("Invalid MoveCommand: Target location farther than moving range");
+			throw new InvalidCommandException("Invalid MoveCommand: Target location farther than moving range" + item.getLocation().toString());
 		}
 
 		item.moveTo(targetLocation);
