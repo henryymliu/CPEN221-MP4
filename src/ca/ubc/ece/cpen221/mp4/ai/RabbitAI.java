@@ -1,6 +1,11 @@
 package ca.ubc.ece.cpen221.mp4.ai;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import ca.ubc.ece.cpen221.mp4.ArenaWorld;
 import ca.ubc.ece.cpen221.mp4.Direction;
@@ -13,7 +18,6 @@ import ca.ubc.ece.cpen221.mp4.commands.EatCommand;
 import ca.ubc.ece.cpen221.mp4.commands.MoveCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
-import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 import ca.ubc.ece.cpen221.mp4.items.animals.Fox;
 import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
@@ -24,6 +28,8 @@ import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
 public class RabbitAI extends AbstractAI {
 
     private int closest = 10; // max number; greater than rabbit's view range
+    private static final int RABBIT_DENSITY = 2;
+    private static final int BREEDING_THRESHOLD = 45;
     private int temp;
     private boolean foxFound;
 
@@ -33,112 +39,87 @@ public class RabbitAI extends AbstractAI {
     @Override
     public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
         // TODO: Change this. Implement your own AI rules.
-        Map<Item, Integer> itemDistances = new HashMap<Item, Integer>();
-        Set<Item> itemsInRange = world.searchSurroundings(animal);
-        List<Integer> itemCandidate = new ArrayList<Integer>();
 
-        for (Item item : itemsInRange) {
-            itemDistances.put(item, animal.getLocation().getDistance(item.getLocation()));
+        Map<Item, Integer> itemDistance = new HashMap<Item, Integer>();
+        Set<Item> surroundings = world.searchSurroundings(animal);
+        List<Item> itemCandidates = new ArrayList<Item>();
+        Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
+        int numRabbits = 0;
+
+        // Density implementation
+        for (Item item : surroundings) {
+            if (item.getName().equals("Rabbit")) {
+                numRabbits++;
+            }
         }
-        itemCandidate.addAll(itemDistances.values());
-        Collections.sort(itemCandidate);
-        Integer closestDistance = itemCandidate.get(0);
 
-        for (Item closestItem : itemDistances.keySet()) {
-
-        }
-
-        if (animal.getEnergy() >= 4 * animal.getMaxEnergy() / 5) {
-            return new BreedCommand(animal, Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation()));
-        } else {
-            for (Item items : itemsInRange) {
-
-                if (items.getName().equals("Fox")) {
-                    if (animal.getLocation().getDistance(items.getLocation()) == closestDistance) {
-                        Direction direction = Util.getDirectionTowards(animal.getLocation(), items.getLocation());
-                        if (direction.equals(Direction.NORTH)) {
-                            return moveCommandOppositeDirection(world, animal, direction);
-                        }
-                        if (direction.equals(Direction.SOUTH)) {
-                            return moveCommandOppositeDirection(world, animal, direction);
-                        }
-                        if (direction.equals(Direction.WEST)) {
-                            return moveCommandOppositeDirection(world, animal, direction);
-                        }
-                        if (direction.equals(Direction.EAST)) {
-                            return moveCommandOppositeDirection(world, animal, direction);
-                        }
+        // Breeding implementation
+        for (Item item : surroundings) {
+            if (item.getName().equals("Fox")) {
+                if (animal.getLocation().getDistance(item.getLocation()) > 3) {
+                    if ((animal.getEnergy() > BREEDING_THRESHOLD) && (numRabbits <= RABBIT_DENSITY)
+                            && (randLoc != null)) {
+                        return new BreedCommand(animal, randLoc);
                     }
-
-                } else if (items.getName().equals("grass")) {
-                    Direction direction = Util.getDirectionTowards(animal.getLocation(), items.getLocation());
-                    if (animal.getLocation().getDistance(items.getLocation()) == closestDistance) {
-                        if (animal.getLocation().getDistance(items.getLocation()) == 1) {
-                            return new EatCommand(animal, items);
-                        } else{ 
-                            if (direction.equals(Direction.NORTH)) {
-                                return moveCommandDirection(world, animal, direction);
-                            }
-                            if (direction.equals(Direction.SOUTH)) {
-                                return moveCommandDirection(world, animal, direction);
-                            }
-                            if (direction.equals(Direction.WEST)) {
-                                return moveCommandDirection(world, animal, direction);
-                            }
-                            if (direction.equals(Direction.EAST)) {
-                                return moveCommandDirection(world, animal, direction);
-                            }
-                        }
-                    }
-
-                } else {
-                    this.moveCommandRandom(world, animal);
-
                 }
             }
+        }
+
+        // Run Away from Fox
+        for (Item item : surroundings) {
+            if (item.getName().equals("Fox")) {
+                if (animal.getLocation().getDistance(item.getLocation()) <= 3) {
+                    return moveInOppositeDirection(world, animal,
+                            Util.getDirectionTowards(animal.getLocation(), item.getLocation()));
+                }
+            }
+        }
+
+        // Eat Grass
+        for (Item item : surroundings) {
+            if (item.getName().equals("grass") && animal.getLocation().getDistance(item.getLocation()) == 1) {
+                return new EatCommand(animal, item);
+            }
+        }
+
+        // Run Towards Grass
+        for (Item item : surroundings) {
+            if (item.getName().equals("grass")) {
+                return moveInDirection(world, animal,
+                        Util.getDirectionTowards(animal.getLocation(), item.getLocation()));
+            }
+        }
+
+        // Moves RandomDirection
+        if (randLoc != null) {
+            return new MoveCommand(animal, randLoc);
+        } else {
             return new WaitCommand();
         }
     }
 
-    public Command moveCommandOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randomLocation = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
-        if (randomLocation != null) {
-            if (this.isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
-                return new MoveCommand(animal, new Location(animal.getLocation(), this.oppositeDir(direction)));
-            } else {
-                return new MoveCommand(animal, new Location(randomLocation));
-            }
-        }
-        return new WaitCommand();
-    }
-
-    public Command moveCommandDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randomLocation = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
-        if (randomLocation != null) {
-            if (this.isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
+    public Command moveInDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
+        Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
+        if (randLoc != null) {
+            if (isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
                 return new MoveCommand(animal, new Location(animal.getLocation(), direction));
             } else {
-                return new MoveCommand(animal, new Location(randomLocation));
+                return new MoveCommand(animal, new Location(randLoc));
             }
         }
         return new WaitCommand();
     }
 
-    public Command moveCommandRandom(ArenaWorld world, ArenaAnimal animal) {
-        Location randomLocation = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
-        if (randomLocation != null) {
-            return new MoveCommand(animal, new Location(randomLocation));
+    public Command moveInOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
+        Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
+        if (randLoc != null) {
+            if (isLocationEmpty(world, animal, new Location(animal.getLocation(), oppositeDir(direction)))) {
+                return new MoveCommand(animal, new Location(animal.getLocation(), oppositeDir(direction)));
+            } else {
+                return new MoveCommand(animal, new Location(randLoc));
+            }
         }
         return new WaitCommand();
     }
 
-    public boolean isStuck(ArenaWorld world, ArenaAnimal animal) {
-        for (Direction dir : Direction.values()) {
-            if (this.isLocationEmpty(world, animal, new Location(animal.getLocation(), dir))) {
-                return false;
-            }
-
-        }
-        return true;
-    }
 }
