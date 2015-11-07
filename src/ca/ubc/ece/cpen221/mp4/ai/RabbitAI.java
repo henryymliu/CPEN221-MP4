@@ -37,46 +37,58 @@ public class RabbitAI extends AbstractAI {
         Set<Item> itemsInRange = world.searchSurroundings(animal);
         List<Integer> itemCandidate = new ArrayList<Integer>();
 
-        for (Item items : itemsInRange) {
-
-            if (items.getName().equals("grass")) {
-                itemDistances.put(items, animal.getLocation().getDistance(items.getLocation()));
-                if (animal.getLocation().getDistance(items.getLocation()) == 1) {
-                    return new EatCommand(animal, items);
-
-                }
-            }
-            if (items.getName().equals("Fox")) {
-                if (animal.getLocation().getDistance(items.getLocation()) <= 2) {
-                    Direction direction = Util.getDirectionTowards(animal.getLocation(), items.getLocation());
-                    if (direction.equals(Direction.NORTH)) {
-                        return moveCommandAdjacent(world, animal, direction);
-                    }
-                    if (direction.equals(Direction.SOUTH)) {
-                        return moveCommandAdjacent(world, animal, direction);
-                    }
-                    if (direction.equals(Direction.WEST)) {
-                        return moveCommandAdjacent(world, animal, direction);
-                    }
-                    if (direction.equals(Direction.EAST)) {
-                        return moveCommandAdjacent(world, animal, direction);
-                    }
-                }
-
-            } else {
-                this.moveCommandRandom(world, animal);
-
-            }
+        for(Item item: itemsInRange){
+            itemDistances.put(item, animal.getLocation().getDistance(item.getLocation()));
         }
         itemCandidate.addAll(itemDistances.values());
         Collections.sort(itemCandidate);
+        Integer closestDistance = itemCandidate.get(0);
+        
+        for (Item closestItem: itemDistances.keySet()){
+            
+        }
+        
+        
+        if (animal.getEnergy() >= 4 * animal.getMaxEnergy() / 5) {
+            return new BreedCommand(animal, Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation()));
+        } else {
+            for (Item items : itemsInRange) {
 
-        return new WaitCommand();
+                if (items.getName().equals("grass")) {
+                    itemDistances.put(items, animal.getLocation().getDistance(items.getLocation()));
+                    if (animal.getLocation().getDistance(items.getLocation()) == 1) {
+                        return new EatCommand(animal, items);
+
+                    }
+                } else if (items.getName().equals("Fox")) {
+                    if (animal.getLocation().getDistance(items.getLocation()) <= 2) {
+                        Direction direction = Util.getDirectionTowards(animal.getLocation(), items.getLocation());
+                        if (direction.equals(Direction.NORTH)) {
+                            return moveCommandOppositeDirection(world, animal, direction);
+                        }
+                        if (direction.equals(Direction.SOUTH)) {
+                            return moveCommandOppositeDirection(world, animal, direction);
+                        }
+                        if (direction.equals(Direction.WEST)) {
+                            return moveCommandOppositeDirection(world, animal, direction);
+                        }
+                        if (direction.equals(Direction.EAST)) {
+                            return moveCommandOppositeDirection(world, animal, direction);
+                        }
+                    }
+
+                } else {
+                    this.moveCommandRandom(world, animal);
+
+                }
+            }
+            return new WaitCommand();
+        }
     }
 
-    public Command moveCommandAdjacent(ArenaWorld world, ArenaAnimal animal, Direction direction) {
+    public Command moveCommandOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
         if (this.isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
-            return new MoveCommand(animal, new Location(animal.getLocation(), direction));
+            return new MoveCommand(animal, new Location(animal.getLocation(), this.oppositeDir(direction)));
         } else {
             return new MoveCommand(animal,
                     new Location(Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation())));
