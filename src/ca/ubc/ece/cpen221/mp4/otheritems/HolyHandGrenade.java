@@ -17,7 +17,7 @@ public class HolyHandGrenade implements Item, Actor {
 	private final static ImageIcon HHGImage = Util.loadImage("HolyHandGrenade.png");
 	Location loc;
 	private int fuseTime = 3; // 1, 2, 5!!! -you mean 3, sir
-	private static final int RADIUS = 5;
+	private static final int RADIUS = 3;
 	Boolean isDead;
 	
 	public HolyHandGrenade(Location loc) {
