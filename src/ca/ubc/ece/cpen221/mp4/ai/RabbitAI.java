@@ -28,8 +28,8 @@ import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
 public class RabbitAI extends AbstractAI {
 
     private int closest = 10; // max number; greater than rabbit's view range
-    private static final int RABBIT_DENSITY = 2;
-    private static final int BREEDING_THRESHOLD = 45;
+    private static final int RABBIT_DENSITY = 1;
+    private static final int BREEDING_THRESHOLD = 60;
     private int temp;
     private boolean foxFound;
 
@@ -62,6 +62,10 @@ public class RabbitAI extends AbstractAI {
                         return new BreedCommand(animal, randLoc);
                     }
                 }
+            } else {
+                if ((animal.getEnergy() > BREEDING_THRESHOLD) && (numRabbits <= RABBIT_DENSITY) && (randLoc != null)) {
+                    return new BreedCommand(animal, randLoc);
+                }
             }
         }
 
@@ -77,7 +81,8 @@ public class RabbitAI extends AbstractAI {
 
         // Eat Grass
         for (Item item : surroundings) {
-            if (item.getName().equals("grass") && animal.getLocation().getDistance(item.getLocation()) == 1) {
+            if ((item.getName().equals("grass") && animal.getLocation().getDistance(item.getLocation()) == 1)
+                    && (animal.getEnergy() + item.getPlantCalories() <= animal.getMaxEnergy())) {
                 return new EatCommand(animal, item);
             }
         }
@@ -90,7 +95,16 @@ public class RabbitAI extends AbstractAI {
             }
         }
 
-        // Moves RandomDirection
+        // Moves RandomDirection (away from other rabbits if there is no food or
+        // foxes)
+        // for (Item item : surroundings) {
+        // if (item.getName().equals("Rabbit")) {
+        // if (animal.getLocation().getDistance(item.getLocation()) <= 1){
+        // return moveInOppositeDirection(world, animal,
+        // Util.getDirectionTowards(animal.getLocation(), item.getLocation()));
+        // }
+        // }
+        // }
         if (randLoc != null) {
             return new MoveCommand(animal, randLoc);
         } else {
