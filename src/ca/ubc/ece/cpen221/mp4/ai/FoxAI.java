@@ -36,6 +36,7 @@ public class FoxAI extends AbstractAI {
 		Set<Item> surroundings = world.searchSurroundings(animal);
 		List<Item> preyCandidates = new ArrayList<Item>();
 		Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
+		Location randMoveLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
 		int numFoxes = 0;
 		// search surroundings for rabbits and adds the rabbits with their
 		// distance to the current fox
@@ -52,7 +53,7 @@ public class FoxAI extends AbstractAI {
 				if ((preyDistance.get(item) == 1)
 						&& ((animal.getEnergy() + item.getMeatCalories() <= animal.getMaxEnergy()))) {
 					return new EatCommand(animal, item);
-				} else if ((animal.getEnergy() > BREEDING_THRESHOLD) && (numFoxes <= FOX_DENSITY)) {
+				} else if ((animal.getEnergy() > BREEDING_THRESHOLD) && (numFoxes <= FOX_DENSITY) && (randLoc != null)) {
 					return new BreedCommand(animal, randLoc);
 				}
 
@@ -78,13 +79,14 @@ public class FoxAI extends AbstractAI {
 			}
 
 		}
-		if (randLoc != null) {
-			return new MoveCommand(animal, randLoc);
+		if (randMoveLoc != null) {
+			return new MoveCommand(animal, randMoveLoc);
 		}
 		// if you're completely stuck
 		else {
 			return new WaitCommand();
 		}
 	}
-
+	
+	
 }

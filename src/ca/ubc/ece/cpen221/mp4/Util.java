@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 import ca.ubc.ece.cpen221.mp4.items.Item;
+import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 
 /**
  * Utility class for common tasks.
@@ -163,7 +164,7 @@ public final class Util {
 		for (int x = loc.getX() - 1; x <= loc.getX() + 1; x++) {
 			for (int y = loc.getY() - 1; y <= loc.getY() + 1; y++) {
 				Location l = new Location(x, y);
-				if (isValidLocation(world, l) && isLocationEmpty(world, l) && loc.getDistance(l) == 1) {
+				if (isValidLocation(world, l) && isLocationEmpty(world, l)) {
 					neighbors[numLocs] = l;
 					numLocs++;
 				}
@@ -173,6 +174,27 @@ public final class Util {
 			return null;
 		return neighbors[RAND.nextInt(numLocs)];
 	}
+	public static Location getRandomAdjacentMoveLocation(ArenaWorld world, Location loc){
+		Boolean isEmpty = false;
+		//check if there are actually any valid locations
+		for(Direction d:Direction.values()){
+			if(isLocationEmpty((World) world, new Location(loc, d))){
+				isEmpty = true;
+				break;
+			}
+		}
+		if(!isEmpty){
+			return null;
+		}
+		Direction dir = getRandomDirection();
+		Location newLoc = new Location(loc, dir);
+		while(!isLocationEmpty((World) world, newLoc)){
+			dir = getRandomDirection();
+			newLoc = new Location(loc, dir);
+		}
+		return newLoc;
+	}
+
 	
 	/**
 	 * Returns a random empty Location in the specified World that is within a specified

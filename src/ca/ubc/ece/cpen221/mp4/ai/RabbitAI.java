@@ -44,6 +44,7 @@ public class RabbitAI extends AbstractAI {
         Set<Item> surroundings = world.searchSurroundings(animal);
         List<Item> itemCandidates = new ArrayList<Item>();
         Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
+        Location randMoveLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
         int numRabbits = 0;
 
         // Density implementation
@@ -105,15 +106,15 @@ public class RabbitAI extends AbstractAI {
         // }
         // }
         // }
-        if (randLoc != null) {
-            return new MoveCommand(animal, randLoc);
+        if (randMoveLoc != null) {
+            return new MoveCommand(animal, randMoveLoc);
         } else {
             return new WaitCommand();
         }
     }
 
     public Command moveInDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
+        Location randLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
         if (randLoc != null) {
             if (isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
                 return new MoveCommand(animal, new Location(animal.getLocation(), direction));
@@ -125,7 +126,7 @@ public class RabbitAI extends AbstractAI {
     }
 
     public Command moveInOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
+        Location randLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
         if (randLoc != null) {
             if (isLocationEmpty(world, animal, new Location(animal.getLocation(), oppositeDir(direction)))) {
                 return new MoveCommand(animal, new Location(animal.getLocation(), oppositeDir(direction)));

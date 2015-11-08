@@ -22,7 +22,7 @@ public class ThrowCommand implements Command {
 			return;
 		}
 		if (!Util.isValidLocation(world, thrownItem.getLocation()) || !Util.isLocationEmpty(world, thrownItem.getLocation())) {
-			throw new InvalidCommandException("Invalid MoveCommand: Invalid/non-empty target location " + thrownItem.getLocation().toString());
+			throw new InvalidCommandException("Invalid ThrowCommand: Invalid/non-empty target location " + thrownItem.getLocation().toString());
 		}
 		world.addItem(thrownItem);
 		
