@@ -22,8 +22,8 @@ import ca.ubc.ece.cpen221.mp4.items.animals.*;
  */
 public class FoxAI extends AbstractAI {
 	private int closest = 2; // max number; greater than fox's view range
-	private static final int FOX_DENSITY = 3;
-	private static final int BREEDING_THRESHOLD = 35;
+	private static final int FOX_DENSITY = 4;
+	private static final int BREEDING_THRESHOLD = 40;
 
 	public FoxAI() {
 
