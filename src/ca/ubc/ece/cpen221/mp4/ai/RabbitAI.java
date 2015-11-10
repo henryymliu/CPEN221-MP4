@@ -36,9 +36,16 @@ public class RabbitAI extends AbstractAI {
     public RabbitAI() {
     }
 
+    /*
+     * This implementation of RabbitAI uses priorities, the order of the
+     * implementations of the various movements and tasks the rabbit is directly
+     * related to the priority of tasks. In this case, the RabbitAI prioritizes
+     * breeding, then running away from threats, then eating. If the rabbit
+     * cannot do either of the three tasks above, then it will move randomly to
+     * try and find a task to do.
+     */
     @Override
     public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-        // TODO: Change this. Implement your own AI rules.
 
         Map<Item, Integer> itemDistance = new HashMap<Item, Integer>();
         Set<Item> surroundings = world.searchSurroundings(animal);
@@ -47,14 +54,22 @@ public class RabbitAI extends AbstractAI {
         Location randMoveLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
         int numRabbits = 0;
 
-        // Density implementation
+        /*
+         * Density implementation: Iterates through all the items and animals
+         * surrounding the animal and if the item is another animal of the same
+         * type, then increase the density.
+         */
         for (Item item : surroundings) {
             if (item.getName().equals("Rabbit")) {
                 numRabbits++;
             }
         }
 
-        // Breeding implementation
+        /*
+         * Breeding implementation: Animal breeds if predator is far enough away
+         * and breeding conditions are met, if there is no predator, then breed
+         * if breeding conditions are met.
+         */
         for (Item item : surroundings) {
             if (item.getName().equals("Fox")) {
                 if (animal.getLocation().getDistance(item.getLocation()) > 3) {
@@ -70,7 +85,10 @@ public class RabbitAI extends AbstractAI {
             }
         }
 
-        // Run Away from Fox
+        /*
+         * Flee predator implementation: Run Away from Fox if it is too close.
+         * 
+         */
         for (Item item : surroundings) {
             if (item.getName().equals("Fox")) {
                 if (animal.getLocation().getDistance(item.getLocation()) <= 3) {
@@ -80,7 +98,10 @@ public class RabbitAI extends AbstractAI {
             }
         }
 
-        // Eat Grass
+        /*
+         * Eat Grass implementation: Eat grass if it is in the adjacent tile and
+         * if the animal requires energy.
+         */
         for (Item item : surroundings) {
             if ((item.getName().equals("grass") && animal.getLocation().getDistance(item.getLocation()) == 1)
                     && (animal.getEnergy() + item.getPlantCalories() <= animal.getMaxEnergy())) {
@@ -88,7 +109,10 @@ public class RabbitAI extends AbstractAI {
             }
         }
 
-        // Run Towards Grass
+        /*
+         * Run Towards Grass implementation: Run towards grass if the animal
+         * sees grass
+         */
         for (Item item : surroundings) {
             if (item.getName().equals("grass")) {
                 return moveInDirection(world, animal,
@@ -113,6 +137,15 @@ public class RabbitAI extends AbstractAI {
         }
     }
 
+    /*
+     * Moves the animal in the direction of an item
+     * 
+     * @param world (the current ArenaWorld), animal (the animal to move),
+     * direction (the direction of the item)
+     * @return Command (MoveCommand in the direction of an item or in a random location if
+     * the path is blocked, WaitCommand if there is no valid adjacent tile to
+     * move to)
+     */
     public Command moveInDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
         Location randLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
         if (randLoc != null) {
@@ -125,6 +158,15 @@ public class RabbitAI extends AbstractAI {
         return new WaitCommand();
     }
 
+    /*
+     * Moves the animal opposite of the direction of the item
+     * 
+     * @param world (the current ArenaWorld), animal (the animal to move),
+     * direction (the direction of the item)
+     * @return Command (MoveCommand in the opposite direction of an item or in a random location if
+     * the path is blocked, WaitCommand if there is no valid adjacent tile to
+     * move to)
+     */
     public Command moveInOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
         Location randLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
         if (randLoc != null) {

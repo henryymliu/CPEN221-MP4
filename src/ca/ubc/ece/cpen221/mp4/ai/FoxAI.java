@@ -41,6 +41,11 @@ public class FoxAI extends AbstractAI {
 		// search surroundings for rabbits and adds the rabbits with their
 		// distance to the current fox
 
+        /*
+         * Density implementation Iterates through all the items and animals
+         * surrounding the animal and if the item is another animal of the same
+         * type, then increase the density
+         */
 		for (Item item : surroundings) {
 			if (item.getName().equals("Fox")) {
 				numFoxes++;
