@@ -18,6 +18,7 @@ import ca.ubc.ece.cpen221.mp4.items.animals.Sniper;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.Bulldozer;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.DonaldTrump;
 import ca.ubc.ece.cpen221.mp4.otheritems.HolyHandGrenade;
+import ca.ubc.ece.cpen221.mp4.otheritems.Mine;
 import ca.ubc.ece.cpen221.mp4.staff.WorldImpl;
 import ca.ubc.ece.cpen221.mp4.staff.WorldUI;
 
@@ -47,6 +48,7 @@ public class Main {
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
 	static final int INITIAL_HHG = 3;
+	static final int INITIAL_MINE = 1;
 	static final int INITIAL_KNIGHTS = 3;
 	static final int INITIAL_SNIPERS = 1;
 	static final int INITIAL_TRUMPS = 2;
@@ -72,6 +74,7 @@ public class Main {
 		addGrass(world);
 		world.addActor(new Gardener());
 
+		
 		addGnats(world);
 		addRabbits(world);
 		addFoxes(world);
@@ -81,6 +84,7 @@ public class Main {
 		//addBulldozer(world);
 		//addKillerRabbits(world);
 		// addHHG(world);
+		addMine(world);
 		// TODO: You may add your own creatures here!
 	}
 
@@ -141,14 +145,23 @@ public class Main {
     }	
 
 	// DEBUG ONLY
-	private void addHHG(World world) {
-		for (int i = 0; i < INITIAL_HHG; i++) {
-			Location loc = Util.getRandomEmptyLocation(world);
-			HolyHandGrenade hhg = new HolyHandGrenade(loc);
-			world.addItem(hhg);
-			world.addActor(hhg);
-		}
-	}
+    private void addHHG(World world) {
+        for (int i = 0; i < INITIAL_HHG; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            HolyHandGrenade hhg = new HolyHandGrenade(loc);
+            world.addItem(hhg);
+            world.addActor(hhg);
+        }
+    }
+    
+    private void addMine(World world) {
+        for (int i = 0; i < INITIAL_MINE; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            Mine mine = new Mine(loc);
+            world.addItem(mine);
+            world.addActor(mine);
+        }
+    }
 
 	private void addTrumps(World world) {
 
