@@ -28,15 +28,22 @@ public class FoxAI extends AbstractAI {
 	public FoxAI() {
 
 	}
-
+	/**
+	 * Returns appropriate command for fox that ensures its survival.
+	 * Priorities: Eat, breed, move towards rabbit
+	 * 
+	 * @param world world that fox can see
+	 * @param animal animal that uses this AI
+	 * @return Command; one of Eat, Breed, or Move
+	 */
 	@Override
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
 
 		Map<Item, Integer> preyDistance = new HashMap<Item, Integer>();
 		Set<Item> surroundings = world.searchSurroundings(animal);
 		List<Item> preyCandidates = new ArrayList<Item>();
-		Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
-		Location randMoveLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
+		Location randLoc = getRandomEmptyAdjacentLocation(world, animal, animal.getLocation());
+		Location randMoveLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
 		int numFoxes = 0;
 		// search surroundings for rabbits and adds the rabbits with their
 		// distance to the current fox
@@ -46,7 +53,10 @@ public class FoxAI extends AbstractAI {
 				numFoxes++;
 			}
 		}
-
+		//check if it can eat adjacency rabbit; if it can, eat only if it does not waste any energy
+		// i.e. current energy + rabbit energy <= maxEnergy
+		//if not then check if it can breed given the current amount of foxes in its view range and 
+		//available breeding energy.
 		for (Item item : surroundings) {
 			if (item.getName().equals("Rabbit")) {
 				preyDistance.put(item, (Integer) animal.getLocation().getDistance(item.getLocation()));
@@ -67,6 +77,7 @@ public class FoxAI extends AbstractAI {
 			int shortestDistance = distances.get(0);
 
 			// for now, only look at rabbits that are closest to fox
+			//finds available rabbit that it can directly move towards
 			for (Item rabbit : preyDistance.keySet()) {
 				if (preyDistance.get(rabbit) == shortestDistance) {
 					Direction dir = Util.getDirectionTowards(animal.getLocation(), rabbit.getLocation());
@@ -79,6 +90,7 @@ public class FoxAI extends AbstractAI {
 			}
 
 		}
+		//if can't move to available location then move randomly
 		if (randMoveLoc != null) {
 			return new MoveCommand(animal, randMoveLoc);
 		}

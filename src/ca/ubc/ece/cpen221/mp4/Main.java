@@ -71,7 +71,7 @@ public class Main {
 		addRabbits(world);
 		addFoxes(world);
 		//addKnights(world);
-		addTrumps(world);
+		//addTrumps(world);
 		//addKillerRabbits(world);
 		// addHHG(world);
 		// TODO: You may add your own creatures here!

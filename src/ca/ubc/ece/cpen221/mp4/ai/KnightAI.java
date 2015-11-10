@@ -30,8 +30,8 @@ public class KnightAI extends AbstractAI {
         Map<Item, Integer> preyDistance = new HashMap<Item, Integer>();
         Set<Item> surroundings = world.searchSurroundings(animal);
         List<Item> preyCandidates = new ArrayList<Item>();
-        Location randLoc = Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation());
-        Location randMoveLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
+        Location randLoc = getRandomEmptyAdjacentLocation(world, animal, animal.getLocation());
+        Location randMoveLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
         int numKnights = 0;
 
         // Eat to survive
@@ -63,7 +63,7 @@ public class KnightAI extends AbstractAI {
     }
     
     public Command moveInDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
+        Location randLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
         if (randLoc != null) {
             if (isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
                 return new MoveCommand(animal, new Location(animal.getLocation(), direction));
@@ -75,7 +75,7 @@ public class KnightAI extends AbstractAI {
     }
 
     public Command moveInOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randLoc = Util.getRandomAdjacentMoveLocation(world, animal.getLocation());
+        Location randLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
         if (randLoc != null) {
             if (isLocationEmpty(world, animal, new Location(animal.getLocation(), oppositeDir(direction)))) {
                 return new MoveCommand(animal, new Location(animal.getLocation(), oppositeDir(direction)));

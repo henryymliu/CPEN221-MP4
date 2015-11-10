@@ -55,4 +55,58 @@ public class AbstractAI implements AI {
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
 		return new WaitCommand();
 	}
+	
+	/**
+	 * Returns location that is adjacent only in the four cardinal directions to the given animal
+	 * and location. 
+	 * @param world world to search in
+	 * @param animal animal to search surroundings with
+	 * @param loc location to check adjacency to.
+	 * @return Random empty location that animal can move to; null if no such location exists.
+	 */
+	public Location getRandomAdjacentMoveLocation(ArenaWorld world, ArenaAnimal animal, Location loc){
+		Boolean isEmpty = false;
+		//check if there are actually any valid locations
+		for(Direction d:Direction.values()){
+			if(isLocationEmpty(world, animal, new Location(loc, d))){
+				isEmpty = true;
+				break;
+			}
+		}
+		if(!isEmpty){
+			return null;
+		}
+		Direction dir = Util.getRandomDirection();
+		Location newLoc = new Location(loc, dir);
+		while(!isLocationEmpty(world, animal, newLoc)){
+			dir = Util.getRandomDirection();
+			newLoc = new Location(loc, dir);
+		}
+		return newLoc;
+	}
+	/**
+	 * Returns location in random direction that is adjacent to the given location of the animal.
+	 * 
+	 * @param world world to search in
+	 * @param animal animal to search with
+	 * @param loc location to search adjacent locations to
+	 * @return Random empty location that is adjacent (one of 8 tiles touching animal) to animal; null if 
+	 * no such location exists
+	 */
+	public Location getRandomEmptyAdjacentLocation(ArenaWorld world, ArenaAnimal animal, Location loc) {
+		Location[] neighbors = new Location[3 * 3]; // 3 x 3 bounding box
+		int numLocs = 0;
+		for (int x = loc.getX() - 1; x <= loc.getX() + 1; x++) {
+			for (int y = loc.getY() - 1; y <= loc.getY() + 1; y++) {
+				Location l = new Location(x, y);
+				if (Util.isValidLocation(world, l) && isLocationEmpty(world,animal, l)) {
+					neighbors[numLocs] = l;
+					numLocs++;
+				}
+			}
+		}
+		if (numLocs == 0)
+			return null;
+		return neighbors[Util.RAND.nextInt(numLocs)];
+	}
 }
