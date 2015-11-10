@@ -6,7 +6,7 @@ import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 
-public class ThrowItemAndMoveCommand implements Command {
+public class MoveAndThrowItemCommand implements Command {
 	private final Item thrownItem;
 	private final MoveableItem moveableItem;
 	private final Location targetLoc;
@@ -18,7 +18,7 @@ public class ThrowItemAndMoveCommand implements Command {
 	 * @param thrownItem item that is thrown; to be created in world
 	 * @param targetLoc location for moveItem to go to
 	 */
-	public ThrowItemAndMoveCommand(MoveableItem moveItem, Item thrownItem, Location targetLoc){
+	public MoveAndThrowItemCommand(MoveableItem moveItem, Item thrownItem, Location targetLoc){
 		this.moveableItem = moveItem;
 		this.thrownItem = thrownItem;
 		this.targetLoc = targetLoc;

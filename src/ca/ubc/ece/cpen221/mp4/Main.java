@@ -75,6 +75,7 @@ public class Main {
 		addGnats(world);
 		addRabbits(world);
 		addFoxes(world);
+		addSniper(world);
 		//addKnights(world);
 		//addTrumps(world);
 		//addBulldozer(world);
