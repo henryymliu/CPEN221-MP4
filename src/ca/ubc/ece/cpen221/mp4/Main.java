@@ -6,6 +6,7 @@ import ca.ubc.ece.cpen221.mp4.ai.FoxAI;
 import ca.ubc.ece.cpen221.mp4.ai.KillerRabbitAI;
 import ca.ubc.ece.cpen221.mp4.ai.KnightAI;
 import ca.ubc.ece.cpen221.mp4.ai.RabbitAI;
+import ca.ubc.ece.cpen221.mp4.ai.SniperAI;
 import ca.ubc.ece.cpen221.mp4.items.Gardener;
 import ca.ubc.ece.cpen221.mp4.items.Grass;
 import ca.ubc.ece.cpen221.mp4.items.animals.Fox;
@@ -13,6 +14,8 @@ import ca.ubc.ece.cpen221.mp4.items.animals.Gnat;
 import ca.ubc.ece.cpen221.mp4.items.animals.KillerRabbit;
 import ca.ubc.ece.cpen221.mp4.items.animals.Knight;
 import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
+import ca.ubc.ece.cpen221.mp4.items.animals.Sniper;
+import ca.ubc.ece.cpen221.mp4.items.vehicles.Bulldozer;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.DonaldTrump;
 import ca.ubc.ece.cpen221.mp4.otheritems.HolyHandGrenade;
 import ca.ubc.ece.cpen221.mp4.staff.WorldImpl;
@@ -45,8 +48,10 @@ public class Main {
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
 	static final int INITIAL_HHG = 3;
 	static final int INITIAL_KNIGHTS = 3;
+	static final int INITIAL_SNIPERS = 1;
 	static final int INITIAL_TRUMPS = 2;
 	static final int INITIAL_KILLER_RABBITS = 3;
+	static final int INITIAL_BULLDOZER = 1;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -72,6 +77,7 @@ public class Main {
 		addFoxes(world);
 		//addKnights(world);
 		//addTrumps(world);
+		//addBulldozer(world);
 		//addKillerRabbits(world);
 		// addHHG(world);
 		// TODO: You may add your own creatures here!
@@ -122,6 +128,16 @@ public class Main {
 			world.addActor(knight);
 		}
 	}
+	
+    private void addSniper(World world) {
+        SniperAI sniperAI = new SniperAI();
+        for (int i = 0; i < INITIAL_SNIPERS; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            Sniper sniper = new Sniper(sniperAI, loc);
+            world.addItem(sniper);
+            world.addActor(sniper);
+        }
+    }	
 
 	// DEBUG ONLY
 	private void addHHG(World world) {
@@ -142,6 +158,16 @@ public class Main {
 			world.addActor(trump);
 		}
 	}
+	
+	   private void addBulldozer(World world) {
+
+	        for (int i = 0; i < INITIAL_BULLDOZER; i++) {
+	            Location loc = Util.getRandomEmptyLocation(world);
+	            Bulldozer bulldozer = new Bulldozer(loc);
+	            world.addItem(bulldozer);
+	            world.addActor(bulldozer);
+	        }
+	    }
 
 	private void addKillerRabbits(World world) {
 		KillerRabbitAI killerRabbitAI = new KillerRabbitAI();

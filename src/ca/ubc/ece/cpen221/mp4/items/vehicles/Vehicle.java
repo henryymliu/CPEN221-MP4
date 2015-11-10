@@ -41,8 +41,8 @@ public interface Vehicle extends MoveableItem, Actor{
 	int getViewRange();
 	
 	/*
-	 * Checks whether vehicle can 'run over' object in neighbouring tile in direction.
-	 * Returns true if neighbouring tile is empty or has weaker object, false if object in tile
+	 * Checks whether vehicle can 'run over' object in neighboring tile in direction.
+	 * Returns true if neighboring tile is empty or has weaker object, false if object in tile
 	 * is stronger than vehicle.
 	 * 
 	 * @param world world to check items
