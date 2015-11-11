@@ -46,6 +46,13 @@ public class HolyHandGrenade implements ActingItem{
 	}
 
 	@Override
+    /**
+     * Returns appropriate command for HolyHandGrenade that give it the exploding ability.
+     * Priorities: EXPLODE! and DESTROY!
+     * 
+     * @param world: world that the HolyHandGrenade is in
+     * @return Command: Wait if not exploded
+     */
 	public Command getNextAction(World world) {
 		Set<Item> toKill = new HashSet<Item>(world.searchSurroundings(this.loc, RADIUS));
 		if (fuseTime == 0) {

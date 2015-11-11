@@ -12,7 +12,6 @@ import ca.ubc.ece.cpen221.mp4.commands.MoveAndThrowItemCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.otheritems.Wall;
 
-
 /*
  * Bulldozer will move randomly as a vehicle and destroy everything in its path
  */
@@ -32,19 +31,20 @@ public class Bulldozer implements Vehicle {
     private Direction newDir = Util.getRandomDirection();
 
     private static final ImageIcon bulldozerImage = Util.loadImage("bulldozer.jpg");
-    
+
     public Bulldozer(Location initLoc) {
 
         this.loc = initLoc;
         isDead = false;
     }
-    
+
     /**
-     * Returns commands for bulldozer to move.
-     * Priorities: Move around randomly.
+     * Returns commands for bulldozer to move. Priorities: Move around randomly.
      * 
-     * @param world: world that the bulldozer is in
-     * @return Command: Move to new location
+     * @param world:
+     *            world that the bulldozer is in
+     * @return Command: Move to new location if able or Wait if there is no
+     *         available tile to move to
      */
     @Override
     public Command getNextAction(World world) {

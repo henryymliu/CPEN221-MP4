@@ -105,7 +105,7 @@ public class HolyGrenadeTank extends AbstractVehicle {
      * 
      * @param world:
      *            world that the HolyGrenadeTank is in
-     * @return Command: one of Move or shoot HolyGrenades
+     * @return Command: one of Move or shoot HolyGrenades; Wait if "dead"
      */
     @Override
     public Command getNextAction(World world) {
