@@ -43,12 +43,12 @@ public class MoveAndThrowItemCommand implements Command {
 					+ moveableItem.getLocation().toString());
 		}
 		moveableItem.moveTo(targetLoc);
-		/*
+		
 		if (!Util.isLocationEmpty(world, thrownItem.getLocation())) {
 			throw new InvalidCommandException(
 					"Invalid ThrowCommand: Invalid/non-empty target location " + thrownItem.getLocation().toString());
 		}
-		*/
+		
 		if (thrownItem.getLocation() != null) {
 			world.addItem(thrownItem);
 			world.addActor(thrownItem);

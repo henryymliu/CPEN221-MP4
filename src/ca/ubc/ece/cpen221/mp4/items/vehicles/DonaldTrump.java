@@ -11,7 +11,7 @@ import ca.ubc.ece.cpen221.mp4.commands.MoveAndThrowItemCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.otheritems.Wall;
 
-public class DonaldTrump implements Vehicle {
+public class DonaldTrump extends AbstractVehicle {
 	private int MOVING_RANGE = 1;
 	private static final int MAX_TURN_SPEED = 3;
 	private static final int VIEW_RANGE = 2;

@@ -29,7 +29,7 @@ public class RabbitAI extends AbstractAI {
 
     private int closest = 10; // max number; greater than rabbit's view range
     private static final int RABBIT_DENSITY = 1;
-    private static final int BREEDING_THRESHOLD = 30;
+    private static final int BREEDING_THRESHOLD = 40;
     private int temp;
     private boolean foxFound;
 

@@ -89,7 +89,7 @@ public class HolyHandGrenade implements ActingItem{
 
 	@Override
 	public boolean isDead() {
-		// TODO Auto-generated method stub
+	
 		return isDead;
 	}
 

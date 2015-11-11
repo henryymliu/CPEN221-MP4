@@ -48,7 +48,7 @@ public interface Vehicle extends MoveableItem, Actor{
 	 * @param world world to check items
 	 * @param Location location to move to
 	 * @param v current vehicle
-	 * @requires location  is valid (within boundaries of world)
+	 * @requires location is valid (within boundaries of world)
 	 */
 	static boolean canRunOverTile(World world, Location location, Vehicle v){
 		Location loc = new Location(location);

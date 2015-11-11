@@ -12,7 +12,7 @@ import ca.ubc.ece.cpen221.mp4.commands.MoveAndThrowItemCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.otheritems.Wall;
 
-public class Bulldozer implements Vehicle {
+public class Bulldozer extends AbstractVehicle {
     private int MOVING_RANGE = 1;
     private static final int MAX_TURN_SPEED = 2;
     private static final int VIEW_RANGE = 1;

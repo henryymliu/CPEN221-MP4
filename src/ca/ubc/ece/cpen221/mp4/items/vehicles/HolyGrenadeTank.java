@@ -25,7 +25,7 @@ public class HolyGrenadeTank extends AbstractVehicle {
 	private static final int maxStraightLineDistance = 5;
 	private boolean isDead;
 	private Location loc;
-	private Location prevLoc;
+
 	private Direction currentDir = Util.getRandomDirection();
 	private Direction newDir = Util.getRandomDirection();
 	  private static final ImageIcon tankImage = Util.loadImage("tank.png");
@@ -72,19 +72,19 @@ public class HolyGrenadeTank extends AbstractVehicle {
 
 	@Override
 	public boolean isDead() {
-		// TODO Auto-generated method stub
+
 		return isDead;
 	}
 
 	@Override
 	public int getPlantCalories() {
-		// TODO Auto-generated method stub
+
 		return 0;
 	}
 
 	@Override
 	public int getMeatCalories() {
-		// TODO Auto-generated method stub
+	
 		return 0;
 	}
 

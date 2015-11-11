@@ -10,43 +10,75 @@ import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
+import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 
 public abstract class AbstractVehicle implements Vehicle {
 	
+	private Location loc;
 	private boolean isDead;
+	private ImageIcon image;
+	private String name;
+	private int energy;
+	private int cooldown;
+	private int STRENGTH;
+	private int MAX_TURN_SPEED;
 	//setter methods
+	protected void setLOCATION(Location loc){
+		this.loc = loc;
+	}
 	
-
+	protected void setIMAGE(ImageIcon img){
+		this.image = img;
+	}
+	protected void setNAME(String name){
+		this.name = name;
+	}
+	protected void setENERGY(int energy){
+		this.energy = energy;
+	}
+	protected void setISDEAD(boolean isDead){
+		this.isDead = isDead;
+	}
+	protected void setCOOLDOWN(int cooldown){
+		this.cooldown = cooldown;
+	}
+	protected void setSTRENGTH(int strength){
+		this.STRENGTH = strength;
+	}
+	protected void setMAXTURNSPEED(int turnspeed){
+		this.MAX_TURN_SPEED = turnspeed;
+	}
+	
 	@Override
 	public void moveTo(Location targetLocation) {
-		// TODO Auto-generated method stub
+		this.loc = targetLocation;
 
 	}
 
 	@Override
 	public int getMovingRange() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return 1;
 	}
 
 	@Override
 	public ImageIcon getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return image;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return name;
 	}
 
 	@Override
 	public Location getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return loc;
 	}
 
 	@Override
@@ -57,38 +89,38 @@ public abstract class AbstractVehicle implements Vehicle {
 
 	@Override
 	public boolean isDead() {
-		// TODO Auto-generated method stub
-		return false;
+
+		return isDead;
 	}
 
 	@Override
 	public int getPlantCalories() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int getMeatCalories() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int getCoolDownPeriod() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return cooldown;
 	}
 
 	@Override
 	public Command getNextAction(World world) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return new WaitCommand();
 	}
 
 	@Override
 	public int getStrength() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return STRENGTH;
 	}
 
 	@Override
@@ -100,7 +132,7 @@ public abstract class AbstractVehicle implements Vehicle {
 	@Override
 	public int getMaxTurnSpeed() {
 		// TODO Auto-generated method stub
-		return 0;
+		return MAX_TURN_SPEED;
 	}
 
 	@Override

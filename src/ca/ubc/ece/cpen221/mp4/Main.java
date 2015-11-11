@@ -55,7 +55,7 @@ public class Main {
 	static final int INITIAL_TRUMPS = 2;
 	static final int INITIAL_KILLER_RABBITS = 3;
 	static final int INITIAL_BULLDOZER = 1;
-	static final int INITIAL_HHGTANK=  5;
+	static final int INITIAL_HHGTANK= 2;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -80,6 +80,7 @@ public class Main {
 		addGnats(world);
 		addRabbits(world);
 		addFoxes(world);
+		/*
 		addSniper(world);
 		addHHGTank(world);
 		addKnights(world);
@@ -88,6 +89,7 @@ public class Main {
 		addKillerRabbits(world);
 		// addHHG(world);
 		addMine(world);
+		*/
 		// TODO: You may add your own creatures here!
 	}
 
