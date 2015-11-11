@@ -84,6 +84,7 @@ public class AbstractAI implements AI {
 		}
 		return newLoc;
 	}
+	
 	/**
 	 * Returns location in random direction that is adjacent to the given location of the animal.
 	 * 
@@ -109,4 +110,46 @@ public class AbstractAI implements AI {
 			return null;
 		return neighbors[Util.RAND.nextInt(numLocs)];
 	}
+	
+    /*
+     * Moves the animal in the direction of an item
+     * 
+     * @param world (the current ArenaWorld), animal (the animal to move),
+     * direction (the direction of the item)
+     * @return Command (MoveCommand in the direction of an item or in a random location if
+     * the path is blocked, WaitCommand if there is no valid adjacent tile to
+     * move to)
+     */
+    public Command moveInDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
+        Location randLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
+        if (randLoc != null) {
+            if (isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
+                return new MoveCommand(animal, new Location(animal.getLocation(), direction));
+            } else {
+                return new MoveCommand(animal, new Location(randLoc));
+            }
+        }
+        return new WaitCommand();
+    }
+
+    /*
+     * Moves the animal opposite of the direction of the item
+     * 
+     * @param world (the current ArenaWorld), animal (the animal to move),
+     * direction (the direction of the item)
+     * @return Command (MoveCommand in the opposite direction of an item or in a random location if
+     * the path is blocked, WaitCommand if there is no valid adjacent tile to
+     * move to)
+     */
+    public Command moveInOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
+        Location randLoc = getRandomAdjacentMoveLocation(world, animal ,animal.getLocation());
+        if (randLoc != null) {
+            if (isLocationEmpty(world, animal, new Location(animal.getLocation(), oppositeDir(direction)))) {
+                return new MoveCommand(animal, new Location(animal.getLocation(), oppositeDir(direction)));
+            } else {
+                return new MoveCommand(animal, new Location(randLoc));
+            }
+        }
+        return new WaitCommand();
+    }
 }

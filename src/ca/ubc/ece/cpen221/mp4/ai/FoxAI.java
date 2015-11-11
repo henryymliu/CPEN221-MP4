@@ -32,9 +32,9 @@ public class FoxAI extends AbstractAI {
 	 * Returns appropriate command for fox that ensures its survival.
 	 * Priorities: Eat, breed, move towards rabbit
 	 * 
-	 * @param world world that fox can see
-	 * @param animal animal that uses this AI
-	 * @return Command; one of Eat, Breed, or Move
+	 * @param world: world that fox can see
+	 * @param animal: animal that uses this AI
+	 * @return Command: one of Eat, Breed, or Move
 	 */
 	@Override
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {

@@ -13,6 +13,9 @@ import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 
+/*
+ * HolyHandGrenade destroys everything in a specified radius
+ */
 public class HolyHandGrenade implements ActingItem{
 	private final static ImageIcon HHGImage = Util.loadImage("HolyHandGrenade.png");
 	Location loc;

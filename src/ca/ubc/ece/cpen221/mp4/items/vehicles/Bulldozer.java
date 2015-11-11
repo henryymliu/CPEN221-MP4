@@ -12,6 +12,10 @@ import ca.ubc.ece.cpen221.mp4.commands.MoveAndThrowItemCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.otheritems.Wall;
 
+
+/*
+ * Bulldozer will move randomly as a vehicle and destroy everything in its path
+ */
 public class Bulldozer implements Vehicle {
     private int MOVING_RANGE = 1;
     private static final int MAX_TURN_SPEED = 2;
@@ -35,6 +39,13 @@ public class Bulldozer implements Vehicle {
         isDead = false;
     }
     
+    /**
+     * Returns commands for bulldozer to move.
+     * Priorities: Move around randomly.
+     * 
+     * @param world: world that the bulldozer is in
+     * @return Command: Move to new location
+     */
     @Override
     public Command getNextAction(World world) {
 

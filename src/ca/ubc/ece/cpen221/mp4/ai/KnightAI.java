@@ -23,6 +23,14 @@ public class KnightAI extends AbstractAI {
     private static final int BREEDING_THRESHOLD = 35;
     private static final int ENERGY_THRESHOLD = 50;
 
+    /**
+     * Returns appropriate command for knight that ensures its survival.
+     * Priorities: Eat and move towards rabbits and foxes.
+     * 
+     * @param world: world that the Knight can see
+     * @param animal: animal that uses this AI
+     * @return Command: one of Eat or Move
+     */
     @Override
     public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
         // TODO Auto-generated method stub
@@ -34,7 +42,10 @@ public class KnightAI extends AbstractAI {
         Location randMoveLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
         int numKnights = 0;
 
-        // Eat to survive
+        /*
+         * Eat to survive: eat only if energy is below desired level and attempt
+         * to eat rabbits or foxes within 1 distance.
+         */
         if (animal.getEnergy() <= ENERGY_THRESHOLD) {
             for (Item item : surroundings) {
                 if (item.getName().equals("Rabbit") || item.getName().equals("Fox")) {
@@ -44,8 +55,10 @@ public class KnightAI extends AbstractAI {
                 }
             }
         }
-        
-        // Move towards prey
+
+        /*
+         *  Move towards prey: move towards rabbits and foxes.
+         */
         for (Item item : surroundings) {
             if (item.getName().equals("Rabbit") || item.getName().equals("Fox")) {
                 return moveInDirection(world, animal,
@@ -53,37 +66,15 @@ public class KnightAI extends AbstractAI {
             }
         }
 
-        // Move in random location if cannot see anything
+        /*
+         *  Move in random location if cannot see anything
+         */
         if (randMoveLoc != null) {
             return new MoveCommand(animal, randMoveLoc);
         } else {
             return new WaitCommand();
         }
-        
-    }
-    
-    public Command moveInDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
-        if (randLoc != null) {
-            if (isLocationEmpty(world, animal, new Location(animal.getLocation(), direction))) {
-                return new MoveCommand(animal, new Location(animal.getLocation(), direction));
-            } else {
-                return new MoveCommand(animal, new Location(randLoc));
-            }
-        }
-        return new WaitCommand();
-    }
 
-    public Command moveInOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
-        if (randLoc != null) {
-            if (isLocationEmpty(world, animal, new Location(animal.getLocation(), oppositeDir(direction)))) {
-                return new MoveCommand(animal, new Location(animal.getLocation(), oppositeDir(direction)));
-            } else {
-                return new MoveCommand(animal, new Location(randLoc));
-            }
-        }
-        return new WaitCommand();
     }
 
 }

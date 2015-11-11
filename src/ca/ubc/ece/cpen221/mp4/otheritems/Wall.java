@@ -8,6 +8,9 @@ import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 
+/*
+ * Walls are a barrier that most items cannot pass
+ */
 public class Wall implements ActingItem {
     private final static ImageIcon wallImage = Util.loadImage("wall.gif");
     private final static int strength = 500;

@@ -11,6 +11,9 @@ import ca.ubc.ece.cpen221.mp4.commands.MoveAndThrowItemCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.otheritems.Wall;
 
+/*
+ * Donald Trump moves randomly and creates walls behind him
+ */
 public class DonaldTrump implements Vehicle {
 	private int MOVING_RANGE = 1;
 	private static final int MAX_TURN_SPEED = 3;
@@ -36,6 +39,13 @@ public class DonaldTrump implements Vehicle {
 		isDead = false;
 	}
 
+    /**
+     * Returns commands for Donald Trump to move and build walls.
+     * Priorities: Move and build wars to keep intruders out.
+     * 
+     * @param world: world that Donald Trump is in
+     * @return Command: Move and Create wall or Wait if Donald Trump is dead
+     */
 	@Override
 	public Command getNextAction(World world) {
 
