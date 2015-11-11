@@ -20,7 +20,8 @@ public class DonaldTrump implements Vehicle {
 	// private int speed = 1;
 	private int cooldown = 5;
 	private int MAX_COOLDOWN = 5;
-	private int straightLineDistanceTravelled = 3;
+	private int straightLineDistanceTravelled = 0;
+	private static final int maxStraightLineDistance = 3;
 	private boolean isDead;
 	private Location loc;
 	private Location prevLoc;
@@ -38,9 +39,9 @@ public class DonaldTrump implements Vehicle {
 	@Override
 	public Command getNextAction(World world) {
 
-		if (straightLineDistanceTravelled == 0) {
+		if (straightLineDistanceTravelled == maxStraightLineDistance) {
 			newDir = Util.getRandomDirection();
-			straightLineDistanceTravelled = 3;
+			straightLineDistanceTravelled = 0;
 
 			if (newDir != currentDir) {
 				if (cooldown < MAX_TURN_SPEED) {
@@ -55,11 +56,11 @@ public class DonaldTrump implements Vehicle {
 				cooldown--;
 			}
 		}
-		straightLineDistanceTravelled--;
+		straightLineDistanceTravelled++;
 		Location toLoc = new Location(loc, currentDir);
 		while (!Util.isValidLocation(world, toLoc)) {
 			currentDir = Util.getRandomDirection();
-			straightLineDistanceTravelled = 3;
+			straightLineDistanceTravelled = 0;
 			cooldown = MAX_COOLDOWN;
 			toLoc = new Location(loc, currentDir);
 		}
@@ -142,7 +143,7 @@ public class DonaldTrump implements Vehicle {
 	}
 
 	@Override
-	public int getMinTurnSpeed() {
+	public int getMaxTurnSpeed() {
 
 		return MAX_TURN_SPEED;
 	}

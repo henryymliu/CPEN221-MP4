@@ -32,7 +32,7 @@ public interface Vehicle extends MoveableItem, Actor{
 	 * Returns minimum speed before vehicle can change direction
 	 * @return minimum speed for object to change dir
 	 */
-	int getMinTurnSpeed();
+	int getMaxTurnSpeed();
 	
 	/**
 	 * Returns how far vehicle can see.

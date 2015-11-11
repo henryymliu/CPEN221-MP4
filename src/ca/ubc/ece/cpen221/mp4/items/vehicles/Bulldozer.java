@@ -142,7 +142,7 @@ public class Bulldozer implements Vehicle {
     }
 
     @Override
-    public int getMinTurnSpeed() {
+    public int getMaxTurnSpeed() {
 
         return MAX_TURN_SPEED;
     }

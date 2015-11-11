@@ -17,6 +17,7 @@ import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
 import ca.ubc.ece.cpen221.mp4.items.animals.Sniper;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.Bulldozer;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.DonaldTrump;
+import ca.ubc.ece.cpen221.mp4.items.vehicles.HolyGrenadeTank;
 import ca.ubc.ece.cpen221.mp4.otheritems.HolyHandGrenade;
 import ca.ubc.ece.cpen221.mp4.otheritems.Mine;
 import ca.ubc.ece.cpen221.mp4.staff.WorldImpl;
@@ -54,6 +55,7 @@ public class Main {
 	static final int INITIAL_TRUMPS = 2;
 	static final int INITIAL_KILLER_RABBITS = 3;
 	static final int INITIAL_BULLDOZER = 1;
+	static final int INITIAL_HHGTANK=  5;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -79,10 +81,11 @@ public class Main {
 		addRabbits(world);
 		addFoxes(world);
 		addSniper(world);
-		//addKnights(world);
-		//addTrumps(world);
-		//addBulldozer(world);
-		//addKillerRabbits(world);
+		addHHGTank(world);
+		addKnights(world);
+		addTrumps(world);
+		addBulldozer(world);
+		addKillerRabbits(world);
 		// addHHG(world);
 		addMine(world);
 		// TODO: You may add your own creatures here!
@@ -192,5 +195,13 @@ public class Main {
 			world.addActor(caerbonnog);
 		}
 	}
+	 private void addHHGTank(World world) {
+	        for (int i = 0; i < INITIAL_HHGTANK; i++) {
+	            Location loc = Util.getRandomEmptyLocation(world);
+	            HolyGrenadeTank tank = new HolyGrenadeTank(loc);
+	            world.addItem(tank);
+	            world.addActor(tank);
+	        }
+	    }
 
 }

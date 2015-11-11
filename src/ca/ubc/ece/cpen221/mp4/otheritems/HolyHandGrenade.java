@@ -13,7 +13,7 @@ import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 
-public class HolyHandGrenade implements Item, Actor {
+public class HolyHandGrenade implements ActingItem{
 	private final static ImageIcon HHGImage = Util.loadImage("HolyHandGrenade.png");
 	Location loc;
 	private int fuseTime = 3; // 1, 2, 5!!! -you mean 3, sir
@@ -78,7 +78,7 @@ public class HolyHandGrenade implements Item, Actor {
 
 	@Override
 	public int getStrength() {
-		return 90000;
+		return 500;
 	}
 
 	@Override

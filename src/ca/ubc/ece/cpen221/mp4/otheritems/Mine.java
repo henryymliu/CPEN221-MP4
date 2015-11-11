@@ -17,7 +17,7 @@ public class Mine implements Item, Actor {
     private final static ImageIcon mineImage = Util.loadImage("mine.gif");
     private final static int strength = 1;
     private int fuseTime = 1; //instant kill
-    private static final int RADIUS = 10;
+    private static final int RADIUS = 5;
 
     private Location location;
     private boolean isDead;

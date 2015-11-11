@@ -4,9 +4,11 @@ import javax.swing.ImageIcon;
 
 import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
-import ca.ubc.ece.cpen221.mp4.items.Item;
+import ca.ubc.ece.cpen221.mp4.World;
+import ca.ubc.ece.cpen221.mp4.commands.Command;
+import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 
-public class Wall implements Item {
+public class Wall implements ActingItem {
     private final static ImageIcon wallImage = Util.loadImage("wall.gif");
     private final static int strength = 500;
 
@@ -58,5 +60,17 @@ public class Wall implements Item {
     public boolean isDead() {
         return isDead;
     }
+
+	@Override
+	public int getCoolDownPeriod() {
+		
+		return 0;
+	}
+
+	@Override
+	public Command getNextAction(World world) {
+		// doesn't move
+		return new WaitCommand();
+	}
 
 }
