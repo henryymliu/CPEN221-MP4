@@ -11,7 +11,6 @@ import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 
-
 public interface Vehicle extends MoveableItem, Actor {
 
     /**
@@ -54,6 +53,7 @@ public interface Vehicle extends MoveableItem, Actor {
 
         for (Item item : world.getItems()) {
             if (item.getLocation().equals(loc)) {
+                // cannot run over then returns false
                 if (item.getStrength() > v.getStrength()) {
                     return false;
                 }

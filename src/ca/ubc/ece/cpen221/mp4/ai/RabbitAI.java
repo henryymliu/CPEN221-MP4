@@ -27,11 +27,9 @@ import ca.ubc.ece.cpen221.mp4.items.animals.Rabbit;
  */
 public class RabbitAI extends AbstractAI {
 
-    private int closest = 10; // max number; greater than rabbit's view range
     private static final int RABBIT_DENSITY = 1;
-    private static final int BREEDING_THRESHOLD = 40;
-    private int temp;
-    private boolean foxFound;
+    private static final int BREEDING_THRESHOLD = 30;
+    private static final int CLOSESTSAFEDISTANCETOFOX = 3;
 
     public RabbitAI() {
     }
@@ -79,7 +77,7 @@ public class RabbitAI extends AbstractAI {
          */
         for (Item item : surroundings) {
             if (item.getName().equals("Fox")) {
-                if (animal.getLocation().getDistance(item.getLocation()) > 3) {
+                if (animal.getLocation().getDistance(item.getLocation()) > CLOSESTSAFEDISTANCETOFOX) {
                     if ((animal.getEnergy() > BREEDING_THRESHOLD) && (numRabbits <= RABBIT_DENSITY)
                             && (randLoc != null)) {
                         return new BreedCommand(animal, randLoc);
@@ -98,7 +96,7 @@ public class RabbitAI extends AbstractAI {
          */
         for (Item item : surroundings) {
             if (item.getName().equals("Fox")) {
-                if (animal.getLocation().getDistance(item.getLocation()) <= 3) {
+                if (animal.getLocation().getDistance(item.getLocation()) <= CLOSESTSAFEDISTANCETOFOX) {
                     return moveInOppositeDirection(world, animal,
                             Util.getDirectionTowards(animal.getLocation(), item.getLocation()));
                 }

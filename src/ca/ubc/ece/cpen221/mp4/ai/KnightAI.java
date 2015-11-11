@@ -29,7 +29,7 @@ public class KnightAI extends AbstractAI {
      * 
      * @param world: world that the Knight can see
      * @param animal: animal that uses this AI
-     * @return Command: one of Eat or Move
+     * @return Command: one of Eat or Move; Wait if cannot do anything else
      */
     @Override
     public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
