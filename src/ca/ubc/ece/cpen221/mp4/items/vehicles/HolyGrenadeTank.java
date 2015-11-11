@@ -201,24 +201,7 @@ public class HolyGrenadeTank extends AbstractVehicle {
         return neighbors[Util.RAND.nextInt(numLocs)];
     }
 
-    public boolean isLocationEmpty(World world, Location location) { // returns
-        // true
-        // if
-        // location
-        // is
-        // empty
-        if (!Util.isValidLocation(world, location)) {
-            return false;
-        }
-        // Set<Item> possibleMoves = world.getItems();
-        // Iterator<Item> it = possibleMoves.iterator();
-        for (Item item : world.getItems()) {
-            // Item item = it.next();
-            if (item.getLocation().equals(location)) {
-                return false;
-            }
-        }
-        return true;
-    }
+ 
+    
 
 }

@@ -14,7 +14,7 @@ import ca.ubc.ece.cpen221.mp4.otheritems.Wall;
 /*
  * Donald Trump moves randomly and creates walls behind him
  */
-public class DonaldTrump implements AbstractVehicle {
+public class DonaldTrump extends AbstractVehicle {
 	private int MOVING_RANGE = 1;
 	private static final int MAX_TURN_SPEED = 3;
 	private static final int VIEW_RANGE = 2;
@@ -122,16 +122,6 @@ public class DonaldTrump implements AbstractVehicle {
 	public boolean isDead() {
 
 		return isDead;
-	}
-
-	@Override
-	public int getPlantCalories() {
-		return 0;
-	}
-
-	@Override
-	public int getMeatCalories() {
-		return 0;
 	}
 
 	@Override
