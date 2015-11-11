@@ -55,7 +55,7 @@ public class Main {
 	static final int INITIAL_TRUMPS = 2;
 	static final int INITIAL_KILLER_RABBITS = 3;
 	static final int INITIAL_BULLDOZER = 1;
-	static final int INITIAL_HHGTANK= 2;
+	static final int INITIAL_HHGTANK = 2;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

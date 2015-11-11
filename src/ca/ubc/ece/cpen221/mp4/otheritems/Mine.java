@@ -13,6 +13,9 @@ import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 
+/*
+ * Mine activates when anything is within a specified ranged and blows up everything
+ */
 public class Mine implements Item, Actor {
     private final static ImageIcon mineImage = Util.loadImage("mine.gif");
     private final static int strength = 1;
