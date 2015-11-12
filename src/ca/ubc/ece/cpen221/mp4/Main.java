@@ -54,7 +54,7 @@ public class Main {
 	static final int INITIAL_KNIGHTS = 5;
 	static final int INITIAL_SNIPERS = 5;
 	static final int INITIAL_TRUMPS = 2;
-	static final int INITIAL_KILLER_RABBITS = 10;
+	static final int INITIAL_KILLER_RABBITS = 3;
 	static final int INITIAL_BULLDOZER = 2;
 	static final int INITIAL_HHGTANK = 2;
 	static final int INITIAL_WALL = 1;
@@ -95,16 +95,16 @@ public class Main {
 		addFoxes(world);
 		
 		
-		//addSniper(world);
-		//addHHGTank(world);
-		//addKnights(world);
-		//addTrumps(world);
-		//addBulldozer(world);
+		addSniper(world);
+		addHHGTank(world);
+		addKnights(world);
+		addTrumps(world);
+		addBulldozer(world);
 		
 		addKillerRabbits(world);
-		//addHHG(world);
-		//addMine(world);
-		//addWall(world);
+		addHHG(world);
+		addMine(world);
+		addWall(world);
 
 		// TODO: You may add your own creatures here!
 	}

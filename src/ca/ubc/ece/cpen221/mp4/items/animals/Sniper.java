@@ -98,7 +98,7 @@ public class Sniper implements ArenaAnimal {
 
     @Override
     public int getPlantCalories() {
-        // Knight is not a plant.
+        // Sniper is not a plant.
         return 0;
     }
 
