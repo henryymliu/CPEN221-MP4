@@ -4,7 +4,9 @@ import javax.swing.ImageIcon;
 
 import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
+import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.ai.AI;
+import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.items.LivingItem;
 
 public class KillerRabbit extends AbstractArenaAnimal {
@@ -13,7 +15,7 @@ public class KillerRabbit extends AbstractArenaAnimal {
     private Location loc;
     private static final int VIEW_RANGE = 3;
     private static final int COOLDOWN_PERIOD = 1;
-    private static final ImageIcon killerRabbitImage = Util.loadImage("killer_rabbit.gif");
+    private static final ImageIcon killerRabbitImage = Util.loadImage("hyena.gif");
     private static final int STRENGTH = 50;
     private static final int INITIAL_ENERGY = 50;
     private static final int MAX_ENERGY = 120;
@@ -28,14 +30,15 @@ public class KillerRabbit extends AbstractArenaAnimal {
         setSTRENGTH(STRENGTH);
         setVIEW_RANGE(VIEW_RANGE);
         setMIN_BREEDING_ENERGY(MIN_BREEDING_ENERGY);
+        //setIMAGE(kilerRabbitImage);
 
     }
 
     @Override
     public LivingItem breed() {
         KillerRabbit child = new KillerRabbit(ai, loc);
-        child.energy = energy / 2;
-        this.energy = energy / 2;
+        child.setEnergy( this.getEnergy() / 2);
+        this.setEnergy(this.getEnergy()/2);
         return child;
     }
 
@@ -49,5 +52,13 @@ public class KillerRabbit extends AbstractArenaAnimal {
     public ImageIcon getImage() {
         return killerRabbitImage;
     }
+    
+    @Override
+    public Command getNextAction(World world) {
+        Command nextAction = ai.getNextAction(world, this);
+        this.setEnergy(getEnergy()-1); // Loses 1 energy regardless of action.
+        return nextAction;
+    }
+    
 
 }

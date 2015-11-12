@@ -16,86 +16,30 @@ import ca.ubc.ece.cpen221.mp4.otheritems.HolyHandGrenade;
  * HolyGrenadeTank moves around and shoots destructive HolyHandGrenades and destroys EVERYTHING
  */
 public class HolyGrenadeTank extends AbstractVehicle {
-    private int MOVING_RANGE = 1;
+
     private static final int MAX_TURN_SPEED = 2;
-    private static final int VIEW_RANGE = 7;
+    
     private static final int STRENGTH = 5000;
     private static final int LAUNCH_RADIUS = 6;
     // private int speed = 1;
     private int cooldown = 5;
     private int MAX_COOLDOWN = 7;
-    private int straightLineDistanceTravelled = 0;
+    
     private static final int maxStraightLineDistance = 5;
-    private boolean isDead;
-    private Location loc;
-    private Location prevLoc;
-    private Direction currentDir = Util.getRandomDirection();
-    private Direction newDir = Util.getRandomDirection();
+  
+    
     private static final ImageIcon tankImage = Util.loadImage("tank.png");
-
+    private static final String name = "Tank";
     public HolyGrenadeTank(Location loc) {
-        this.loc = loc;
-        isDead = false;
-    }
-
-    @Override
-    public void moveTo(Location targetLocation) {
-        loc = targetLocation;
-
-    }
-
-    @Override
-    public int getMovingRange() {
-        // TODO Auto-generated method stub
-        return MOVING_RANGE;
-    }
-
-    @Override
-    public ImageIcon getImage() {
-
-        return tankImage;
-    }
-
-    @Override
-    public String getName() {
-
-        return "Tank";
-    }
-
-    @Override
-    public Location getLocation() {
-        // TODO Auto-generated method stub
-        return loc;
-    }
-
-    @Override
-    public void loseEnergy(int energy) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public boolean isDead() {
-        // TODO Auto-generated method stub
-        return isDead;
-    }
-
-    @Override
-    public int getPlantCalories() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int getMeatCalories() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int getCoolDownPeriod() {
-
-        return cooldown;
+    	setNAME(name);
+    	setLOCATION(loc);
+        setISDEAD(false);
+        setCOOLDOWN(cooldown);
+        setMAXCOOLDOWN(MAX_COOLDOWN);
+        setSTRENGTH(STRENGTH);
+        setMAXTURNSPEED(MAX_TURN_SPEED);
+        setMAXSTRAIGHTLINEDISTANCE(maxStraightLineDistance);
+        setIMAGE(tankImage);
     }
 
     /**
@@ -109,65 +53,19 @@ public class HolyGrenadeTank extends AbstractVehicle {
      */
     @Override
     public Command getNextAction(World world) {
-        if (straightLineDistanceTravelled == maxStraightLineDistance) {
-            newDir = Util.getRandomDirection();
-            straightLineDistanceTravelled = 0;
-
-            if (newDir != currentDir) {
-                if (cooldown < MAX_TURN_SPEED) {
-                    cooldown++;
-                }
-
-                else {
-                    currentDir = newDir;
-                    cooldown--;
-                }
-            } else {
-                cooldown--;
-            }
-        }
-        straightLineDistanceTravelled++;
-        Location launchLoc = getRandomEmptyRadialLocation(world, loc, LAUNCH_RADIUS);
-        Location toLoc = new Location(loc, currentDir);
-        while (!isLocationEmpty(world, toLoc)) {
-            currentDir = Util.getRandomDirection();
-            straightLineDistanceTravelled = 0;
-            cooldown = MAX_COOLDOWN;
-            toLoc = new Location(loc, currentDir);
-        }
+    	
+        Location toLoc = getNewVehicleMoveLocation(world);
+        
+        Location launchLoc = getRandomEmptyRadialLocation(world, getLocation(), LAUNCH_RADIUS);
         // determines a random location that is within the throwing (shooting)
         // radius
-        if (Vehicle.canRunOverTile(world, toLoc, this)) {
+        if (canRunOverTile(world, toLoc)) {
             return new MoveAndThrowItemCommand(this, new HolyHandGrenade(launchLoc), toLoc);
         } else {
-            this.isDead = true;
+            setISDEAD(true);
             return new WaitCommand();
         }
 
-    }
-
-    @Override
-    public int getStrength() {
-
-        return STRENGTH;
-    }
-
-    @Override
-    public int getSpeed() {
-
-        return cooldown;
-    }
-
-    @Override
-    public int getMaxTurnSpeed() {
-        // TODO Auto-generated method stub
-        return MAX_TURN_SPEED;
-    }
-
-    @Override
-    public int getViewRange() {
-        // TODO Auto-generated method stub
-        return 0;
     }
 
     /**
