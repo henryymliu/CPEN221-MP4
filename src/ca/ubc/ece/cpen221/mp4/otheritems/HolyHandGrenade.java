@@ -16,91 +16,91 @@ import ca.ubc.ece.cpen221.mp4.items.Item;
 /*
  * HolyHandGrenade destroys everything in a specified radius
  */
-public class HolyHandGrenade implements ActingItem{
-	private final static ImageIcon HHGImage = Util.loadImage("HolyHandGrenade.png");
-	Location loc;
-	private int fuseTime = 3; // 1, 2, 5!!! -you mean 3, sir
-	private static final int RADIUS = 2;
-	Boolean isDead;
-	
-	public HolyHandGrenade(Location loc) {
-		this.loc = loc;
-		this.isDead = false;
-	}
+public class HolyHandGrenade implements ActingItem {
+    private final static ImageIcon HHGImage = Util.loadImage("HolyHandGrenade.png");
+    Location loc;
+    private int fuseTime = 3; // 1, 2, 5!!! -you mean 3, sir
+    private static final int RADIUS = 2;
+    Boolean isDead;
 
-	@Override
-	public int getPlantCalories() {
-		
-		return 0;
-	}
+    public HolyHandGrenade(Location loc) {
+        this.loc = loc;
+        this.isDead = false;
+    }
 
-	@Override
-	public int getMeatCalories() {
-		// you think you can eat a grenade?
-		return 0;
-	}
+    @Override
+    public int getPlantCalories() {
 
-	@Override
-	public int getCoolDownPeriod() {
-		return 0;
-	}
+        return 0;
+    }
 
-	@Override
+    @Override
+    public int getMeatCalories() {
+        // you think you can eat a grenade?
+        return 0;
+    }
+
+    @Override
+    public int getCoolDownPeriod() {
+        return 0;
+    }
+
+    @Override
     /**
-     * Returns appropriate command for HolyHandGrenade that give it the exploding ability.
-     * Priorities: EXPLODE! and DESTROY!
+     * Returns appropriate command for HolyHandGrenade that give it the
+     * exploding ability. Priorities: EXPLODE! and DESTROY!
      * 
-     * @param world: world that the HolyHandGrenade is in
+     * @param world:
+     *            world that the HolyHandGrenade is in
      * @return Command: Wait if not exploded
      */
-	public Command getNextAction(World world) {
-		Set<Item> toKill = new HashSet<Item>(world.searchSurroundings(this.loc, RADIUS));
-		if (fuseTime == 0) {
-			for (Item toDie : toKill) {
-				toDie.loseEnergy(Integer.MAX_VALUE);
-			}
-			isDead = true;
-			
-		}
-		else{
-			fuseTime--;
-		}
-		return new WaitCommand();
-	}
+    public Command getNextAction(World world) {
+        Set<Item> toKill = new HashSet<Item>(world.searchSurroundings(this.loc, RADIUS));
+        if (fuseTime == 0) {
+            for (Item toDie : toKill) {
+                toDie.loseEnergy(Integer.MAX_VALUE);
+            }
+            isDead = true;
 
-	@Override
-	public ImageIcon getImage() {
+        } else {
+            fuseTime--;
+        }
+        return new WaitCommand();
+    }
 
-		return HHGImage;
-	}
+    @Override
+    public ImageIcon getImage() {
 
-	@Override
-	public String getName() {
+        return HHGImage;
+    }
 
-		return "Holy Hand Grenade";
-	}
+    @Override
+    public String getName() {
 
-	@Override
-	public Location getLocation() {
+        return "Holy Hand Grenade";
+    }
 
-		return loc;
-	}
+    @Override
+    public Location getLocation() {
 
-	@Override
-	public int getStrength() {
-		return 500;
-	}
+        return loc;
+    }
 
-	@Override
-	public void loseEnergy(int energy) {
-		return;
+    @Override
+    public int getStrength() {
+        return 500;
+    }
 
-	}
+    @Override
+    public void loseEnergy(int energy) {
+        return;
 
-	@Override
-	public boolean isDead() {
-	
-		return isDead;
-	}
+    }
+
+    @Override
+    public boolean isDead() {
+
+        return isDead;
+    }
 
 }

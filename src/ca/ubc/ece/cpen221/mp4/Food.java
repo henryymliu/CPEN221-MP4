@@ -10,17 +10,17 @@ import ca.ubc.ece.cpen221.mp4.items.LivingItem;
  */
 public interface Food {
 
-	/**
-	 * The energy that this food contains as a plant
-	 *
-	 * @return plant energy of this food
-	 */
-	int getPlantCalories();
+    /**
+     * The energy that this food contains as a plant
+     *
+     * @return plant energy of this food
+     */
+    int getPlantCalories();
 
-	/**
-	 * The energy that this food contains as an animal
-	 *
-	 * @return meat energy of this food
-	 */
-	int getMeatCalories();
+    /**
+     * The energy that this food contains as an animal
+     *
+     * @return meat energy of this food
+     */
+    int getMeatCalories();
 }

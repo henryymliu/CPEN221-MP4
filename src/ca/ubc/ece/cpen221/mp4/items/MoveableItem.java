@@ -9,21 +9,21 @@ import ca.ubc.ece.cpen221.mp4.Location;
  */
 public interface MoveableItem extends Item {
 
-	/**
-	 * Move to the target location. The <code> targetLocation </code> must be
-	 * valid and empty.
-	 *
-	 * @param targetLocation
-	 *            the location that this item is moving to
-	 */
-	void moveTo(Location targetLocation);
+    /**
+     * Move to the target location. The <code> targetLocation </code> must be
+     * valid and empty.
+     *
+     * @param targetLocation
+     *            the location that this item is moving to
+     */
+    void moveTo(Location targetLocation);
 
-	/**
-	 * Returns the maximum distance that this item can move in one step. For
-	 * example, a {@link MoveableItem} with moving range 1 can only move to
-	 * adjacent locations.
-	 *
-	 * @return the maximum moving distance
-	 */
-	int getMovingRange();
+    /**
+     * Returns the maximum distance that this item can move in one step. For
+     * example, a {@link MoveableItem} with moving range 1 can only move to
+     * adjacent locations.
+     *
+     * @return the maximum moving distance
+     */
+    int getMovingRange();
 }

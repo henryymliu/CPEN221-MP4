@@ -18,107 +18,117 @@ import ca.ubc.ece.cpen221.mp4.items.animals.*;
 
 public class AbstractAI implements AI {
 
-	public Direction oppositeDir(Direction dir) { // returns opposite direction
-													// of direction dir
-		if (dir == Direction.EAST) {
-			return Direction.WEST;
-		} else if (dir == Direction.WEST) {
-			return Direction.EAST;
-		} else if (dir == Direction.SOUTH) {
-			return Direction.NORTH;
-		} else {
-			return Direction.SOUTH;
-		}
-	}
+    public Direction oppositeDir(Direction dir) { // returns opposite direction
+                                                  // of direction dir
+        if (dir == Direction.EAST) {
+            return Direction.WEST;
+        } else if (dir == Direction.WEST) {
+            return Direction.EAST;
+        } else if (dir == Direction.SOUTH) {
+            return Direction.NORTH;
+        } else {
+            return Direction.SOUTH;
+        }
+    }
 
-	public boolean isLocationEmpty(ArenaWorld world, ArenaAnimal animal, Location location) { // returns
-																								// true
-																								// if
-																								// location
-																								// is
-																								// empty
-		if (!Util.isValidLocation(world, location)) {
-			return false;
-		}
-		Set<Item> possibleMoves = world.searchSurroundings(animal);
-		Iterator<Item> it = possibleMoves.iterator();
-		while (it.hasNext()) {
-			Item item = it.next();
-			if (item.getLocation().equals(location)) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public boolean isLocationEmpty(ArenaWorld world, ArenaAnimal animal, Location location) { // returns
+                                                                                              // true
+                                                                                              // if
+                                                                                              // location
+                                                                                              // is
+                                                                                              // empty
+        if (!Util.isValidLocation(world, location)) {
+            return false;
+        }
+        Set<Item> possibleMoves = world.searchSurroundings(animal);
+        Iterator<Item> it = possibleMoves.iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            if (item.getLocation().equals(location)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	@Override
-	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-		return new WaitCommand();
-	}
-	
-	/**
-	 * Returns location that is adjacent only in the four cardinal directions to the given animal
-	 * and location. 
-	 * @param world world to search in
-	 * @param animal animal to search surroundings with
-	 * @param loc location to check adjacency to.
-	 * @return Random empty location that animal can move to; null if no such location exists.
-	 */
-	public Location getRandomAdjacentMoveLocation(ArenaWorld world, ArenaAnimal animal, Location loc){
-		Boolean isEmpty = false;
-		//check if there are actually any valid locations
-		for(Direction d:Direction.values()){
-			if(isLocationEmpty(world, animal, new Location(loc, d))){
-				isEmpty = true;
-				break;
-			}
-		}
-		if(!isEmpty){
-			return null;
-		}
-		Direction dir = Util.getRandomDirection();
-		Location newLoc = new Location(loc, dir);
-		while(!isLocationEmpty(world, animal, newLoc)){
-			dir = Util.getRandomDirection();
-			newLoc = new Location(loc, dir);
-		}
-		return newLoc;
-	}
-	
-	/**
-	 * Returns location in random direction that is adjacent to the given location of the animal.
-	 * 
-	 * @param world world to search in
-	 * @param animal animal to search with
-	 * @param loc location to search adjacent locations to
-	 * @return Random empty location that is adjacent (one of 8 tiles touching animal) to animal; null if 
-	 * no such location exists
-	 */
-	public Location getRandomEmptyAdjacentLocation(ArenaWorld world, ArenaAnimal animal, Location loc) {
-		Location[] neighbors = new Location[3 * 3]; // 3 x 3 bounding box
-		int numLocs = 0;
-		for (int x = loc.getX() - 1; x <= loc.getX() + 1; x++) {
-			for (int y = loc.getY() - 1; y <= loc.getY() + 1; y++) {
-				Location l = new Location(x, y);
-				if (Util.isValidLocation(world, l) && isLocationEmpty(world,animal, l)) {
-					neighbors[numLocs] = l;
-					numLocs++;
-				}
-			}
-		}
-		if (numLocs == 0)
-			return null;
-		return neighbors[Util.RAND.nextInt(numLocs)];
-	}
-	
-    /*
+    @Override
+    public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
+        return new WaitCommand();
+    }
+
+    /**
+     * Returns location that is adjacent only in the four cardinal directions to
+     * the given animal and location.
+     * 
+     * @param world
+     *            world to search in
+     * @param animal
+     *            animal to search surroundings with
+     * @param loc
+     *            location to check adjacency to.
+     * @return Random empty location that animal can move to; null if no such
+     *         location exists.
+     */
+    public Location getRandomAdjacentMoveLocation(ArenaWorld world, ArenaAnimal animal, Location loc) {
+        Boolean isEmpty = false;
+        // check if there are actually any valid locations
+        for (Direction d : Direction.values()) {
+            if (isLocationEmpty(world, animal, new Location(loc, d))) {
+                isEmpty = true;
+                break;
+            }
+        }
+        if (!isEmpty) {
+            return null;
+        }
+        Direction dir = Util.getRandomDirection();
+        Location newLoc = new Location(loc, dir);
+        while (!isLocationEmpty(world, animal, newLoc)) {
+            dir = Util.getRandomDirection();
+            newLoc = new Location(loc, dir);
+        }
+        return newLoc;
+    }
+
+    /**
+     * Returns location in random direction that is adjacent to the given
+     * location of the animal.
+     * 
+     * @param world
+     *            world to search in
+     * @param animal
+     *            animal to search with
+     * @param loc
+     *            location to search adjacent locations to
+     * @return Random empty location that is adjacent (one of 8 tiles touching
+     *         animal) to animal; null if no such location exists
+     */
+    public Location getRandomEmptyAdjacentLocation(ArenaWorld world, ArenaAnimal animal, Location loc) {
+        Location[] neighbors = new Location[3 * 3]; // 3 x 3 bounding box
+        int numLocs = 0;
+        for (int x = loc.getX() - 1; x <= loc.getX() + 1; x++) {
+            for (int y = loc.getY() - 1; y <= loc.getY() + 1; y++) {
+                Location l = new Location(x, y);
+                if (Util.isValidLocation(world, l) && isLocationEmpty(world, animal, l)) {
+                    neighbors[numLocs] = l;
+                    numLocs++;
+                }
+            }
+        }
+        if (numLocs == 0)
+            return null;
+        return neighbors[Util.RAND.nextInt(numLocs)];
+    }
+
+    /**
      * Moves the animal in the direction of an item
      * 
      * @param world (the current ArenaWorld), animal (the animal to move),
      * direction (the direction of the item)
-     * @return Command (MoveCommand in the direction of an item or in a random location if
-     * the path is blocked, WaitCommand if there is no valid adjacent tile to
-     * move to)
+     * 
+     * @return Command (MoveCommand in the direction of an item or in a random
+     * location if the path is blocked, WaitCommand if there is no valid
+     * adjacent tile to move to)
      */
     public Command moveInDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
         Location randLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
@@ -132,17 +142,18 @@ public class AbstractAI implements AI {
         return new WaitCommand();
     }
 
-    /*
+    /**
      * Moves the animal opposite of the direction of the item
      * 
      * @param world (the current ArenaWorld), animal (the animal to move),
      * direction (the direction of the item)
-     * @return Command (MoveCommand in the opposite direction of an item or in a random location if
-     * the path is blocked, WaitCommand if there is no valid adjacent tile to
-     * move to)
+     * 
+     * @return Command (MoveCommand in the opposite direction of an item or in a
+     * random location if the path is blocked, WaitCommand if there is no valid
+     * adjacent tile to move to)
      */
     public Command moveInOppositeDirection(ArenaWorld world, ArenaAnimal animal, Direction direction) {
-        Location randLoc = getRandomAdjacentMoveLocation(world, animal ,animal.getLocation());
+        Location randLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
         if (randLoc != null) {
             if (isLocationEmpty(world, animal, new Location(animal.getLocation(), oppositeDir(direction)))) {
                 return new MoveCommand(animal, new Location(animal.getLocation(), oppositeDir(direction)));

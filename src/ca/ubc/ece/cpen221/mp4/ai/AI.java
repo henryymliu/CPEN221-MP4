@@ -10,16 +10,16 @@ import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
  */
 public interface AI {
 
-	/**
-	 * Decides the next action to be taken, given the state of the World and the
-	 * animal.
-	 *
-	 * @param world
-	 *            the current World
-	 * @param animal
-	 *            the animal waiting for the next action
-	 * @return the next action for animal
-	 */
-	Command getNextAction(ArenaWorld world, ArenaAnimal animal);
+    /**
+     * Decides the next action to be taken, given the state of the World and the
+     * animal.
+     *
+     * @param world
+     *            the current World
+     * @param animal
+     *            the animal waiting for the next action
+     * @return the next action for animal
+     */
+    Command getNextAction(ArenaWorld world, ArenaAnimal animal);
 
 }

@@ -16,155 +16,164 @@ import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 
 public abstract class AbstractVehicle implements Vehicle {
 
-	private Location loc;
-	private boolean isDead;
-	private ImageIcon image;
-	private String name;
-	private int energy;
-	private int cooldown;
-	private int STRENGTH;
-	private int MAX_TURN_SPEED;
+    private Location loc;
+    private boolean isDead;
+    private ImageIcon image;
+    private String name;
+    private int energy;
+    private int cooldown;
+    private int STRENGTH;
+    private int MAX_TURN_SPEED;
 
-	// setter methods
-	protected void setLOCATION(Location loc) {
-		this.loc = loc;
-	}
+    // setter methods
+    protected void setLOCATION(Location loc) {
+        this.loc = loc;
+    }
 
-	protected void setIMAGE(ImageIcon img) {
-		this.image = img;
-	}
+    protected void setIMAGE(ImageIcon img) {
+        this.image = img;
+    }
 
-	protected void setNAME(String name) {
-		this.name = name;
-	}
+    protected void setNAME(String name) {
+        this.name = name;
+    }
 
-	protected void setENERGY(int energy) {
-		this.energy = energy;
-	}
+    protected void setENERGY(int energy) {
+        this.energy = energy;
+    }
 
-	protected void setISDEAD(boolean isDead) {
-		this.isDead = isDead;
-	}
+    protected void setISDEAD(boolean isDead) {
+        this.isDead = isDead;
+    }
 
-	protected void setCOOLDOWN(int cooldown) {
-		this.cooldown = cooldown;
-	}
+    protected void setCOOLDOWN(int cooldown) {
+        this.cooldown = cooldown;
+    }
 
-	protected void setSTRENGTH(int strength) {
-		this.STRENGTH = strength;
-	}
+    protected void setSTRENGTH(int strength) {
+        this.STRENGTH = strength;
+    }
 
-	protected void setMAXTURNSPEED(int turnspeed) {
-		this.MAX_TURN_SPEED = turnspeed;
-	}
+    protected void setMAXTURNSPEED(int turnspeed) {
+        this.MAX_TURN_SPEED = turnspeed;
+    }
 
-	@Override
-	public void moveTo(Location targetLocation) {
-		this.loc = targetLocation;
+    @Override
+    public void moveTo(Location targetLocation) {
+        this.loc = targetLocation;
 
-	}
+    }
 
-	@Override
-	public int getMovingRange() {
+    @Override
+    public int getMovingRange() {
 
-		return 1;
-	}
+        return 1;
+    }
 
-	@Override
-	public ImageIcon getImage() {
+    @Override
+    public ImageIcon getImage() {
 
-		return image;
-	}
+        return image;
+    }
 
-	@Override
-	public String getName() {
+    @Override
+    public String getName() {
 
-		return name;
-	}
+        return name;
+    }
 
-	@Override
-	public Location getLocation() {
+    @Override
+    public Location getLocation() {
 
-		return loc;
-	}
+        return loc;
+    }
 
-	@Override
-	public void loseEnergy(int energy) {
-		// TODO Auto-generated method stub
+    @Override
+    public void loseEnergy(int energy) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public boolean isDead() {
+    @Override
+    public boolean isDead() {
 
-		return isDead;
-	}
+        return isDead;
+    }
 
-	@Override
-	public int getPlantCalories() {
+    @Override
+    public int getPlantCalories() {
 
-		return 0;
-	}
+        return 0;
+    }
 
-	@Override
-	public int getMeatCalories() {
+    @Override
+    public int getMeatCalories() {
 
-		return 0;
-	}
+        return 0;
+    }
 
-	@Override
-	public int getCoolDownPeriod() {
+    @Override
+    public int getCoolDownPeriod() {
 
-		return cooldown;
-	}
+        return cooldown;
+    }
 
-	@Override
-	public Command getNextAction(World world) {
+    @Override
+    public Command getNextAction(World world) {
 
-		return new WaitCommand();
-	}
+        return new WaitCommand();
+    }
 
-	@Override
-	public int getStrength() {
+    @Override
+    public int getStrength() {
 
-		return STRENGTH;
-	}
+        return STRENGTH;
+    }
 
-	@Override
-	public int getSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int getSpeed() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public int getMaxTurnSpeed() {
-		
-		return MAX_TURN_SPEED;
-	}
+    @Override
+    public int getMaxTurnSpeed() {
 
-	@Override
-	public int getViewRange() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+        return MAX_TURN_SPEED;
+    }
 
-	public boolean isLocationEmpty(World world, Location location) { // returns
-	        // true
-	        // if
-	        // location
-	        // is
-	        // empty
-	        if (!Util.isValidLocation(world, location)) {
-	            return false;
-	        }
-	        // Set<Item> possibleMoves = world.getItems();
-	        // Iterator<Item> it = possibleMoves.iterator();
-	        for (Item item : world.getItems()) {
-	            // Item item = it.next();
-	            if (item.getLocation().equals(location)) {
-	                return false;
-	            }
-	        }
-	        return true;
-	}
+    @Override
+    public int getViewRange() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /**
+     * Checks to see if a location is empty.
+     * 
+     * @param world
+     *            world the location is in
+     * @param location
+     *            location to be checked
+     * @return True is location is empty and False otherwise
+     */
+    public boolean isLocationEmpty(World world, Location location) { // returns
+        // true
+        // if
+        // location
+        // is
+        // empty
+        if (!Util.isValidLocation(world, location)) {
+            return false;
+        }
+        // Set<Item> possibleMoves = world.getItems();
+        // Iterator<Item> it = possibleMoves.iterator();
+        for (Item item : world.getItems()) {
+            // Item item = it.next();
+            if (item.getLocation().equals(location)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -22,7 +22,7 @@ public class Wall implements ActingItem {
         this.location = location;
         this.isDead = false;
     }
-    
+
     @Override
     public ImageIcon getImage() {
         return wallImage;
@@ -37,7 +37,7 @@ public class Wall implements ActingItem {
     public Location getLocation() {
         return location;
     }
-    
+
     @Override
     public int getPlantCalories() {
         return 0;
@@ -64,16 +64,23 @@ public class Wall implements ActingItem {
         return isDead;
     }
 
-	@Override
-	public int getCoolDownPeriod() {
-		
-		return 0;
-	}
+    @Override
+    public int getCoolDownPeriod() {
 
-	@Override
-	public Command getNextAction(World world) {
-		// doesn't move
-		return new WaitCommand();
-	}
+        return 0;
+    }
+
+    /**
+     * Wait command
+     * 
+     * @param world
+     *            world wall is in
+     * @return Command: Wait
+     */
+    @Override
+    public Command getNextAction(World world) {
+        // doesn't move
+        return new WaitCommand();
+    }
 
 }

@@ -201,7 +201,4 @@ public class HolyGrenadeTank extends AbstractVehicle {
         return neighbors[Util.RAND.nextInt(numLocs)];
     }
 
- 
-    
-
 }

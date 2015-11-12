@@ -8,9 +8,9 @@ import ca.ubc.ece.cpen221.mp4.items.LivingItem;
  */
 public final class WaitCommand implements Command {
 
-	@Override
-	public void execute(World w) {
-		// Do nothing.
-	}
+    @Override
+    public void execute(World w) {
+        // Do nothing.
+    }
 
 }

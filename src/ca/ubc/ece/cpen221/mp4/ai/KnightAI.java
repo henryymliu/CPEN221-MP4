@@ -18,6 +18,9 @@ import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 
+/*
+ * Knight AI
+ */
 public class KnightAI extends AbstractAI {
     private static final int FOX_DENSITY = 3;
     private static final int BREEDING_THRESHOLD = 35;
@@ -27,20 +30,18 @@ public class KnightAI extends AbstractAI {
      * Returns appropriate command for knight that ensures its survival.
      * Priorities: Eat and move towards rabbits and foxes.
      * 
-     * @param world: world that the Knight can see
-     * @param animal: animal that uses this AI
-     * @return Command: one of Eat or Move; Wait if cannot do anything else
+     * @param world:
+     *            world that the Knight can see
+     * @param animal:
+     *            animal that uses this AI
+     * @return Command: one of Eat prey or Move towards prey; Wait if cannot do
+     *         anything else
      */
     @Override
     public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-        // TODO Auto-generated method stub
 
-        Map<Item, Integer> preyDistance = new HashMap<Item, Integer>();
         Set<Item> surroundings = world.searchSurroundings(animal);
-        List<Item> preyCandidates = new ArrayList<Item>();
-        Location randLoc = getRandomEmptyAdjacentLocation(world, animal, animal.getLocation());
         Location randMoveLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
-        int numKnights = 0;
 
         /*
          * Eat to survive: eat only if energy is below desired level and attempt
@@ -57,7 +58,7 @@ public class KnightAI extends AbstractAI {
         }
 
         /*
-         *  Move towards prey: move towards rabbits and foxes.
+         * Move towards prey: move towards rabbits and foxes.
          */
         for (Item item : surroundings) {
             if (item.getName().equals("Rabbit") || item.getName().equals("Fox")) {
@@ -67,7 +68,7 @@ public class KnightAI extends AbstractAI {
         }
 
         /*
-         *  Move in random location if cannot see anything
+         * Move in random location if cannot see anything
          */
         if (randMoveLoc != null) {
             return new MoveCommand(animal, randMoveLoc);

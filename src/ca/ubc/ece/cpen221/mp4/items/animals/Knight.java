@@ -14,7 +14,7 @@ import ca.ubc.ece.cpen221.mp4.items.LivingItem;
  * Shining Knight for the Queen
  */
 public class Knight implements ArenaAnimal {
-    
+
     private static final int INITIAL_ENERGY = 100;
     private static final int MAX_ENERGY = 100;
     private static final int STRENGTH = 250;
@@ -27,7 +27,7 @@ public class Knight implements ArenaAnimal {
 
     private Location location;
     private int energy;
-    
+
     public Knight(AI knightAI, Location initialLocation) {
         this.ai = knightAI;
         this.location = initialLocation;

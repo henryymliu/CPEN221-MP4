@@ -14,7 +14,7 @@ import ca.ubc.ece.cpen221.mp4.items.LivingItem;
  * Sniper
  */
 public class Sniper implements ArenaAnimal {
-    
+
     private static final int INITIAL_ENERGY = 100;
     private static final int MAX_ENERGY = 100;
     private static final int STRENGTH = 500;
@@ -27,7 +27,7 @@ public class Sniper implements ArenaAnimal {
 
     private Location location;
     private int energy;
-    
+
     public Sniper(AI sniperAI, Location initialLocation) {
         this.ai = sniperAI;
         this.location = initialLocation;

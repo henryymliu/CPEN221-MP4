@@ -38,25 +38,27 @@ public class RabbitAI extends AbstractAI {
      * Returns appropriate command for rabbit that ensures its survival.
      * Priorities: Eat, breed, move towards grass and away from foxes
      * 
-     * @param world: world that the rabbit can see
-     * @param animal: animal that uses this AI
+     * @param world:
+     *            world that the rabbit can see
+     * @param animal:
+     *            animal that uses this AI
      * @return Command: one of Eat, Breed, or Move
      */
     @Override
     public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-        
+
         /*
          * This implementation of RabbitAI uses priorities, the order of the
-         * implementations of the various movements and tasks the rabbit is directly
-         * related to the priority of tasks. In this case, the RabbitAI prioritizes
-         * breeding, then running away from threats, then eating. If the rabbit
-         * cannot do either of the three tasks above, then it will move randomly to
-         * try and find a task to do.
+         * implementations of the various movements and tasks the rabbit is
+         * directly related to the priority of tasks. In this case, the RabbitAI
+         * prioritizes breeding, then running away from threats, then eating. If
+         * the rabbit cannot do either of the three tasks above, then it will
+         * move randomly to try and find a task to do.
          */
 
         Set<Item> surroundings = world.searchSurroundings(animal);
-        Location randLoc = getRandomEmptyAdjacentLocation(world,animal, animal.getLocation());
-        Location randMoveLoc = getRandomAdjacentMoveLocation(world,animal, animal.getLocation());
+        Location randLoc = getRandomEmptyAdjacentLocation(world, animal, animal.getLocation());
+        Location randMoveLoc = getRandomAdjacentMoveLocation(world, animal, animal.getLocation());
         int numRabbits = 0;
 
         /*
@@ -125,16 +127,6 @@ public class RabbitAI extends AbstractAI {
             }
         }
 
-        // Moves RandomDirection (away from other rabbits if there is no food or
-        // foxes)
-        // for (Item item : surroundings) {
-        // if (item.getName().equals("Rabbit")) {
-        // if (animal.getLocation().getDistance(item.getLocation()) <= 1){
-        // return moveInOppositeDirection(world, animal,
-        // Util.getDirectionTowards(animal.getLocation(), item.getLocation()));
-        // }
-        // }
-        // }
         if (randMoveLoc != null) {
             return new MoveCommand(animal, randMoveLoc);
         } else {

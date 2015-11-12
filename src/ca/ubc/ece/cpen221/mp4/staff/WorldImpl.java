@@ -25,117 +25,117 @@ import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
  */
 public class WorldImpl implements World {
 
-	private static final int DEFAULT_WIDTH = 40;
-	private static final int DEFAULT_HEIGHT = 40;
+    private static final int DEFAULT_WIDTH = 40;
+    private static final int DEFAULT_HEIGHT = 40;
 
-	private final int width;
-	private final int height;
+    private final int width;
+    private final int height;
 
-	private final Map<Actor, Integer> actorWait = new HashMap<Actor, Integer>();
-	private final Set<Item> items = new HashSet<Item>();
-	private final List<Actor> actors = new ArrayList<Actor>();
+    private final Map<Actor, Integer> actorWait = new HashMap<Actor, Integer>();
+    private final Set<Item> items = new HashSet<Item>();
+    private final List<Actor> actors = new ArrayList<Actor>();
 
-	/**
-	 * Default constructor which creates this World with the default number of
-	 * columns and rows.
-	 */
-	public WorldImpl() {
-		this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	}
+    /**
+     * Default constructor which creates this World with the default number of
+     * columns and rows.
+     */
+    public WorldImpl() {
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
 
-	/**
-	 * Constructor which creates this World with the specified width and height.
-	 * The width and height must both be greater than or equal to zero.
-	 *
-	 * @param width
-	 *            the number of columns in this World
-	 * @param height
-	 *            the number of rows in this World
-	 */
-	public WorldImpl(int width, int height) {
-		if (width < 0 || height < 0) {
-			throw new IllegalArgumentException("Width and height must be non-negative.");
-		}
-		this.width = width;
-		this.height = height;
-	}
+    /**
+     * Constructor which creates this World with the specified width and height.
+     * The width and height must both be greater than or equal to zero.
+     *
+     * @param width
+     *            the number of columns in this World
+     * @param height
+     *            the number of rows in this World
+     */
+    public WorldImpl(int width, int height) {
+        if (width < 0 || height < 0) {
+            throw new IllegalArgumentException("Width and height must be non-negative.");
+        }
+        this.width = width;
+        this.height = height;
+    }
 
-	@Override
-	public void addActor(Actor actor) {
-		actors.add(actor);
-		actorWait.put(actor, 0);
-	}
+    @Override
+    public void addActor(Actor actor) {
+        actors.add(actor);
+        actorWait.put(actor, 0);
+    }
 
-	@Override
-	public void addItem(Item item) {
-		items.add(item);
-	}
+    @Override
+    public void addItem(Item item) {
+        items.add(item);
+    }
 
-	@Override
-	public Iterable<Item> getItems() {
-		// Lazily removes all of the dead items.
-		Iterator<Item> it = items.iterator();
-		while (it.hasNext()) {
-			Item item = it.next();
-			if (item.isDead()) {
-				it.remove();
-				actorWait.remove(item);
-				actors.remove(item);
-			}
-		}
+    @Override
+    public Iterable<Item> getItems() {
+        // Lazily removes all of the dead items.
+        Iterator<Item> it = items.iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            if (item.isDead()) {
+                it.remove();
+                actorWait.remove(item);
+                actors.remove(item);
+            }
+        }
 
-		return Collections.unmodifiableSet(items);
-	}
+        return Collections.unmodifiableSet(items);
+    }
 
-	@Override
-	public void step() {
-		// Checks whether or not each Actor has completed its cooldown. If it
-		// has, then the Actor's next command is executed. Otherwise, The
-		// Actor's cooldown time decreases by 1.
-		for (Actor actor : new ArrayList<Actor>(actors)) {
-			Integer waitPeriod = actorWait.get(actor);
-			// If waitPeriod is null, then the actor has been removed by another
-			// Command already, so do nothing in that case.
-			if (waitPeriod != null) {
-				if (waitPeriod <= 0) {
-					Command command = actor.getNextAction(this);
-					actorWait.put(actor, actor.getCoolDownPeriod());
-					try {
-						command.execute(this);
-					} catch (InvalidCommandException e) {
-						e.printStackTrace();
-					}
-				} else {
-					actorWait.put(actor, waitPeriod - 1);
-				}
-			}
-		}
-	}
+    @Override
+    public void step() {
+        // Checks whether or not each Actor has completed its cooldown. If it
+        // has, then the Actor's next command is executed. Otherwise, The
+        // Actor's cooldown time decreases by 1.
+        for (Actor actor : new ArrayList<Actor>(actors)) {
+            Integer waitPeriod = actorWait.get(actor);
+            // If waitPeriod is null, then the actor has been removed by another
+            // Command already, so do nothing in that case.
+            if (waitPeriod != null) {
+                if (waitPeriod <= 0) {
+                    Command command = actor.getNextAction(this);
+                    actorWait.put(actor, actor.getCoolDownPeriod());
+                    try {
+                        command.execute(this);
+                    } catch (InvalidCommandException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    actorWait.put(actor, waitPeriod - 1);
+                }
+            }
+        }
+    }
 
-	@Override
-	public Set<Item> searchSurroundings(ArenaAnimal animal) {
-		return searchSurroundings(animal.getLocation(), animal.getViewRange());
-	}
+    @Override
+    public Set<Item> searchSurroundings(ArenaAnimal animal) {
+        return searchSurroundings(animal.getLocation(), animal.getViewRange());
+    }
 
-	@Override
-	public Set<Item> searchSurroundings(Location loc, int range) {
-		Set<Item> result = new HashSet<Item>();
-		for (Item item : items) {
-			if (item.getLocation().getDistance(loc) <= range) {
-				result.add(item);
-			}
-		}
-		return result;
-	}
+    @Override
+    public Set<Item> searchSurroundings(Location loc, int range) {
+        Set<Item> result = new HashSet<Item>();
+        for (Item item : items) {
+            if (item.getLocation().getDistance(loc) <= range) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
 
-	@Override
-	public int getWidth() {
-		return width;
-	}
+    @Override
+    public int getWidth() {
+        return width;
+    }
 
-	@Override
-	public int getHeight() {
-		return height;
-	}
+    @Override
+    public int getHeight() {
+        return height;
+    }
 
 }

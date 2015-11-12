@@ -5,21 +5,20 @@ import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.Vehicle;
 
 /**
- * The AI interface for all animal AIs. Your implementations of FoxAI and
- * RabbitAI must implement this interface, with no constructor.
+ * The AI interface for all Vehicle AIs.
  */
 public interface VehicleAI {
 
-	/**
-	 * Decides the next action to be taken, given the state of the World and the
-	 * vehicle.
-	 *
-	 * @param world
-	 *            the current World
-	 * @param vehicle
-	 *            the vehicle waiting for the next action
-	 * @return the next action for vehicle
-	 */
-	Command getNextAction(ArenaWorld world, Vehicle vehicle);
+    /**
+     * Decides the next action to be taken, given the state of the World and the
+     * vehicle.
+     *
+     * @param world
+     *            the current World
+     * @param vehicle
+     *            the vehicle waiting for the next action
+     * @return the next action for vehicle
+     */
+    Command getNextAction(ArenaWorld world, Vehicle vehicle);
 
 }

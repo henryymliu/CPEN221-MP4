@@ -9,27 +9,32 @@ import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 
+/*
+ * KillerRabbit AI
+ */
 public class KillerRabbitAI extends AbstractAI {
 
-	public KillerRabbitAI() {
-		
-	}
-	
+    public KillerRabbitAI() {
+
+    }
+
     /**
-     * Returns appropriate command for fox that ensures its survival.
-     * Priorities: Eat, breed, move towards rabbit
+     * Returns appropriate command for KillerRabit that ensures its survival.
+     * Priorities: None
      * 
-     * @param world: world that the Killer Rabbit can see
-     * @param animal: animal that uses this AI
-     * @return Command: one of Eat, Breed, or Move
+     * @param world:
+     *            world that the Killer Rabbit can see
+     * @param animal:
+     *            animal that uses this AI
+     * @return Command: Wait
      */
-	@Override
-	public Command getNextAction(ArenaWorld world, ArenaAnimal animal){
-		String[] predators = {"Holy Hand Grenade"};
-		String[] prey = {"Knight", "Fox", "Rabbit"};
-		List<String> listOfPredators = new ArrayList<String>(Arrays.asList(predators));
-		List<String> listOfPrey = new ArrayList<String>(Arrays.asList(prey));
-		return new WaitCommand();
-	}
+    @Override
+    public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
+        String[] predators = { "Holy Hand Grenade" };
+        String[] prey = { "Knight", "Fox", "Rabbit" };
+        List<String> listOfPredators = new ArrayList<String>(Arrays.asList(predators));
+        List<String> listOfPrey = new ArrayList<String>(Arrays.asList(prey));
+        return new WaitCommand();
+    }
 
 }
